@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Handchecker : MonoBehaviour
 {
-    public Transform HandR, HandL;
+    public Transform HandR, HandL,Head;
     public OVRSkeleton _skeletonR,_skeletonL; //右手、もしくは左手の Bone情報
     public Text textR,textL;
     public int HandrotateR, HandrotateL;
@@ -38,15 +38,86 @@ public class Handchecker : MonoBehaviour
 
 
 
-        textR.text = "Index is " + isIndexStraight.ToString() + "\nMiddle is " + isMiddleStraight + "\nRing is " + isRingStraight + "\nPinky is " + isPinkyStraight + "\nThumb is " + isThumbStraight;
-        textL.text = "Index is " + isIndexStraightL.ToString() + "\nMiddle is " + isMiddleStraightL + "\nRing is " + isRingStraightL + "\nPinky is " + isPinkyStraightL + "\nThumb is " + isThumbStraightL;
+        textR.text = "親指は" + IsFingerstraight(isThumbStraight) + "\n人差し指は" + IsFingerstraight(isIndexStraight) + "\n中指は" + IsFingerstraight(isMiddleStraight) + "\n薬指は" + IsFingerstraight(isRingStraight) + "\n小指は" + IsFingerstraight(isPinkyStraight) + "\n" + Handrot(HandR, true) + "\n" + Head2handposV(HandR) + Head2handposH(HandR);
+        textL.text = "親指は" + IsFingerstraight(isThumbStraightL) + "\n人差し指は " + IsFingerstraight(isIndexStraightL) + "\n中指は" + IsFingerstraight(isMiddleStraightL) + "\n薬指は" + IsFingerstraight(isRingStraightL) + "\n小指は" + IsFingerstraight(isPinkyStraightL) + "\n" + Handrot(HandL, false) + "\n" + Head2handposV(HandL) + Head2handposH(HandL);
     }
 
- /*   int Handrot(Transform Hand)//ここを書く　手の向きの認識
+    string IsFingerstraight(bool fingerstraight)
     {
-        if(Hand.localRotation<0)
-    }*/
+        if (fingerstraight)
+        {
+            return "伸びている";
+        }
+        else
+        {
+            return "曲げている";
+        }
+    }
 
+    string Handrot(Transform Hand,bool IsR)
+    {
+        if (IsR)
+        {
+            if (Hand.localEulerAngles.y <= 135 && Hand.localEulerAngles.y >= 45)
+            {
+                return "正面";
+            }
+            else if ((Hand.localEulerAngles.y < 45 && Hand.localEulerAngles.y >= 0) || (Hand.localEulerAngles.y <= 360 && Hand.localEulerAngles.y >= 315))
+            {
+                return "側面";
+            }
+            else if (Hand.localEulerAngles.y < 315 && Hand.localEulerAngles.y >= 225)
+            {
+                return "背面";
+            }
+            return "エラー";
+        }
+        else
+        {
+            if (Hand.localEulerAngles.y <= 135 && Hand.localEulerAngles.y >= 45)
+            {
+                return "正面";
+            }
+            else if (Hand.localEulerAngles.y <= 225 && Hand.localEulerAngles.y > 135)
+            {
+                return "側面";
+            }
+            else if (Hand.localEulerAngles.y <= 315 && Hand.localEulerAngles.y > 225)
+            {
+                return "背面";
+            }
+            return "エラー";
+        }
+    }
+
+    string Head2handposV(Transform Hand)
+    {
+        if ((Hand.localPosition.y - Head.localPosition.y) <= -0.3f)
+        {
+            return "胸の";
+        }
+        else if ((Hand.localPosition.y - Head.localPosition.y) > -0.3f)
+        {
+            return "顔の";
+        }
+        return "エラー";
+    }
+    string Head2handposH (Transform Hand)
+    {
+        if ((Hand.localPosition.x - Head.localPosition.x) >= 0.15f)
+        {
+            return "右側";
+        }
+        else if ((Hand.localPosition.x - Head.localPosition.x) < 0.15f && (Hand.localPosition.x - Head.localPosition.x) > -0.15f)
+        {
+            return "前";
+        }
+        else if ((Hand.localPosition.x - Head.localPosition.x) <= -0.15f)
+        {
+            return "左側";
+        }
+        return "エラー";
+    }
     private bool IsStraight(bool isR,float threshold, params OVRSkeleton.BoneId[] boneids)
     {
         if (isR)
