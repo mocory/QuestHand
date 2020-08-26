@@ -352,8 +352,8 @@ MonoBehaviour:
   isRingStraightL: 0
   isPinkyStraightL: 0
   isThumbStraightL: 0
-  FingerR: 
-  FingerL: 
+  FingerR: 0000000000
+  FingerL: 0000000000
   HandrotateR: 0
   HandrotateL: 0
   HandposVR: 0
@@ -970,7 +970,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1949037788
 MonoBehaviour:
   m_ObjectHideFlags: 0
