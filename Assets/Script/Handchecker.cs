@@ -34,8 +34,8 @@ public class Handchecker : MonoBehaviour
         isPinkyStraightL = IsStraight(false, 0.8f, OVRSkeleton.BoneId.Hand_Pinky0, OVRSkeleton.BoneId.Hand_Pinky1, OVRSkeleton.BoneId.Hand_Pinky2, OVRSkeleton.BoneId.Hand_Pinky3, OVRSkeleton.BoneId.Hand_PinkyTip);
         FingerL = new bool[] { isThumbStraightL, isIndexStraightL, isMiddleStraightL, isRingStraightL, isPinkyStraightL };
 
-        textR.text = "親指は" + IsFingerstraight(isThumbStraight) + "\n人差し指は" + IsFingerstraight(isIndexStraight) + "\n中指は" + IsFingerstraight(isMiddleStraight) + "\n薬指は" + IsFingerstraight(isRingStraight) + "\n小指は" + IsFingerstraight(isPinkyStraight) + "\n" + Handrot(HandR, true) + "\n" + Head2handposV(HandR,true) + Head2handposH(HandR,true);
-        textL.text = "親指は" + IsFingerstraight(isThumbStraightL) + "\n人差し指は " + IsFingerstraight(isIndexStraightL) + "\n中指は" + IsFingerstraight(isMiddleStraightL) + "\n薬指は" + IsFingerstraight(isRingStraightL) + "\n小指は" + IsFingerstraight(isPinkyStraightL) + "\n" + Handrot(HandL, false) + "\n" + Head2handposV(HandL,false) + Head2handposH(HandL,false);
+        textR.text = "親指は" + IsFingerstraight(isThumbStraight) + "\n人差し指は" + IsFingerstraight(isIndexStraight) + "\n中指は" + IsFingerstraight(isMiddleStraight) + "\n薬指は" + IsFingerstraight(isRingStraight) + "\n小指は" + IsFingerstraight(isPinkyStraight) + "\n" + Handrot(HandR, true) + "\n" + Head2handposV(HandR,true) + Head2handposH(HandR,true) + "\n" + Handroll(HandR, true);
+        textL.text = "親指は" + IsFingerstraight(isThumbStraightL) + "\n人差し指は " + IsFingerstraight(isIndexStraightL) + "\n中指は" + IsFingerstraight(isMiddleStraightL) + "\n薬指は" + IsFingerstraight(isRingStraightL) + "\n小指は" + IsFingerstraight(isPinkyStraightL) + "\n" + Handrot(HandL, false) + "\n" + Head2handposV(HandL,false) + Head2handposH(HandL,false) + "\n" + Handroll(HandL, false);
     }
 
     string IsFingerstraight(bool fingerstraight)
@@ -62,15 +62,18 @@ public class Handchecker : MonoBehaviour
             else if ((Hand.localEulerAngles.y < 45 && Hand.localEulerAngles.y >= 0) || (Hand.localEulerAngles.y <= 360 && Hand.localEulerAngles.y >= 315))
             {
                 HandrotateR = 1;
-                return "側面";
+                return "内向き";
             }
             else if (Hand.localEulerAngles.y < 315 && Hand.localEulerAngles.y >= 225)
             {
                 HandrotateR = 2;
                 return "背面";
             }
-            HandrotateR = 3;
-            return "エラー";
+            else
+            {
+                HandrotateR = 3;
+                return "外向き";
+            }
         }
         else
         {
@@ -82,15 +85,60 @@ public class Handchecker : MonoBehaviour
             else if (Hand.localEulerAngles.y <= 225 && Hand.localEulerAngles.y > 135)
             {
                 HandrotateL = 1;
-                return "側面";
+                return "内向き";
             }
             else if (Hand.localEulerAngles.y <= 315 && Hand.localEulerAngles.y > 225)
             {
                 HandrotateL = 2;
                 return "背面";
             }
-            HandrotateL = 3;
-            return "エラー";
+            else
+            {
+                HandrotateL = 3;
+                return "外向き";
+            }
+        }
+    }
+
+    string Handroll(Transform Hand, bool IsR)
+    {
+        if (IsR)//右手
+        {
+            if (Hand.localEulerAngles.x <= 135 && Hand.localEulerAngles.x >= 20)//左傾斜
+            {
+                return "右傾斜";
+            }
+            else if (Hand.localEulerAngles.x <= 225&&Hand.localEulerAngles.x >= 135)//中央
+            {
+                return "エラー";
+            }
+            else if(Hand.localEulerAngles.x <= 340 && Hand.localEulerAngles.x >= 225)//右傾斜
+            {
+                return "左傾斜";
+            }
+            else
+            {
+                return "傾斜なし";
+            }
+        }
+        else//左手
+        {
+            if (Hand.localEulerAngles.x <= 135 && Hand.localEulerAngles.x >= 20)//左傾斜
+            {
+                return "右傾斜";
+            }
+            else if (Hand.localEulerAngles.x <= 225 && Hand.localEulerAngles.x >= 135)//中央
+            {
+                return "エラー";
+            }
+            else if (Hand.localEulerAngles.x <= 340 && Hand.localEulerAngles.x >= 225)//右傾斜
+            {
+                return "左傾斜";
+            }
+            else
+            {
+                return "傾斜なし";
+            }
         }
     }
 
