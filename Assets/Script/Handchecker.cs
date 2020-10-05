@@ -11,6 +11,8 @@ public class Handchecker : MonoBehaviour
     public bool isIndexStraight, isMiddleStraight, isRingStraight, isPinkyStraight, isThumbStraight, isIndexStraightL, isMiddleStraightL, isRingStraightL, isPinkyStraightL, isThumbStraightL;
     public bool[] FingerR, FingerL;
     public int HandrotateR, HandrotateL, HandposVR, HandposVL, HandposHR, HandposHL;
+    public int[] HandinfoL, HandinfoR;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,8 +36,25 @@ public class Handchecker : MonoBehaviour
         isPinkyStraightL = IsStraight(false, 0.8f, OVRSkeleton.BoneId.Hand_Pinky0, OVRSkeleton.BoneId.Hand_Pinky1, OVRSkeleton.BoneId.Hand_Pinky2, OVRSkeleton.BoneId.Hand_Pinky3, OVRSkeleton.BoneId.Hand_PinkyTip);
         FingerL = new bool[] { isThumbStraightL, isIndexStraightL, isMiddleStraightL, isRingStraightL, isPinkyStraightL };
 
-        textR.text = "親指は" + IsFingerstraight(isThumbStraight) + "\n人差し指は" + IsFingerstraight(isIndexStraight) + "\n中指は" + IsFingerstraight(isMiddleStraight) + "\n薬指は" + IsFingerstraight(isRingStraight) + "\n小指は" + IsFingerstraight(isPinkyStraight) + "\n" + Handrot(HandR, true) + "\n" + Head2handposV(HandR,true) + Head2handposH(HandR,true) + "\n" + Handroll(HandR, true);
-        textL.text = "親指は" + IsFingerstraight(isThumbStraightL) + "\n人差し指は " + IsFingerstraight(isIndexStraightL) + "\n中指は" + IsFingerstraight(isMiddleStraightL) + "\n薬指は" + IsFingerstraight(isRingStraightL) + "\n小指は" + IsFingerstraight(isPinkyStraightL) + "\n" + Handrot(HandL, false) + "\n" + Head2handposV(HandL,false) + Head2handposH(HandL,false) + "\n" + Handroll(HandL, false);
+        textR.text = "親指は" + IsFingerstraight(isThumbStraight) + "\n人差し指は" + IsFingerstraight(isIndexStraight) + "\n中指は" + IsFingerstraight(isMiddleStraight) + "\n薬指は" + IsFingerstraight(isRingStraight) + "\n小指は" + IsFingerstraight(isPinkyStraight) + "\n" + Handrot(HandR, true) + "\n" + Head2handposV(HandR, true) + Head2handposH(HandR, true) + "\n" + Handroll(HandR, true)/* + "\n" + HandinfoR[0].ToString() + HandinfoR[1].ToString() + HandinfoR[2].ToString() + HandinfoR[3].ToString() + HandinfoR[4].ToString() + HandinfoR[5].ToString() + HandinfoR[6].ToString() + HandinfoR[7].ToString() + HandinfoR[8].ToString()*/;
+        textL.text = "親指は" + IsFingerstraight(isThumbStraightL) + "\n人差し指は " + IsFingerstraight(isIndexStraightL) + "\n中指は" + IsFingerstraight(isMiddleStraightL) + "\n薬指は" + IsFingerstraight(isRingStraightL) + "\n小指は" + IsFingerstraight(isPinkyStraightL) + "\n" + Handrot(HandL, false) + "\n" + Head2handposV(HandL,false) + Head2handposH(HandL,false) + "\n" + Handroll(HandL, false)/*+ "\n" + HandinfoL[0].ToString() + HandinfoL[1].ToString() + HandinfoL[2].ToString() + HandinfoL[3].ToString() + HandinfoL[4].ToString() + HandinfoL[5].ToString() + HandinfoL[6].ToString() + HandinfoL[7].ToString() + HandinfoL[8].ToString()*/;
+
+//        Handstatecheker();
+/*        for(int i=0;i< HandinfoR.Length; i++)
+        {
+ //           textR.text += "\n";
+            textR.text += HandinfoR[i].ToString();
+        }
+        for (int i = 0; i < HandinfoL.Length; i++)
+        {
+ //           textL.text += "\n";
+            textL.text += HandinfoL[i].ToString();
+        }*/
+    }
+
+    void Handstatecheker()
+    {
+        Fingerchecker();
     }
 
     string IsFingerstraight(bool fingerstraight)
@@ -50,6 +69,22 @@ public class Handchecker : MonoBehaviour
         }
     }
 
+    void Fingerchecker()
+    {
+        //左手
+        HandinfoL[0] = (isThumbStraightL) ? 1 : 0;
+        HandinfoL[1] = (isIndexStraightL) ? 1 : 0;
+        HandinfoL[2] = (isMiddleStraightL) ? 1 : 0;
+        HandinfoL[3] = (isRingStraightL) ? 1 : 0;
+        HandinfoL[4] = (isPinkyStraightL) ? 1 : 0;
+        //右手
+        HandinfoR[0] = (isThumbStraight) ? 1 : 0;
+        HandinfoR[1] = (isIndexStraight) ? 1 : 0;
+        HandinfoR[2] = (isMiddleStraight) ? 1 : 0;
+        HandinfoR[3] = (isRingStraight) ? 1 : 0;
+        HandinfoR[4] = (isPinkyStraight) ? 1 : 0;
+    }
+
     string Handrot(Transform Hand,bool IsR)
     {
         if (IsR)
@@ -57,21 +92,25 @@ public class Handchecker : MonoBehaviour
             if (Hand.localEulerAngles.y <= 135 && Hand.localEulerAngles.y >= 45)
             {
                 HandrotateR = 0;
+                HandinfoR[5] = 0;
                 return "正面";
             }
             else if ((Hand.localEulerAngles.y < 45 && Hand.localEulerAngles.y >= 0) || (Hand.localEulerAngles.y <= 360 && Hand.localEulerAngles.y >= 315))
             {
                 HandrotateR = 1;
+                HandinfoR[5] = 1;
                 return "内向き";
             }
             else if (Hand.localEulerAngles.y < 315 && Hand.localEulerAngles.y >= 225)
             {
                 HandrotateR = 2;
+                HandinfoR[5] = 2;
                 return "背面";
             }
             else
             {
                 HandrotateR = 3;
+                HandinfoR[5] = 3;
                 return "外向き";
             }
         }
@@ -80,21 +119,25 @@ public class Handchecker : MonoBehaviour
             if (Hand.localEulerAngles.y <= 135 && Hand.localEulerAngles.y >= 45)
             {
                 HandrotateL = 0;
+                HandinfoL[5] = 0;
                 return "正面";
             }
             else if (Hand.localEulerAngles.y <= 225 && Hand.localEulerAngles.y > 135)
             {
                 HandrotateL = 1;
+                HandinfoL[5] = 1;
                 return "内向き";
             }
             else if (Hand.localEulerAngles.y <= 315 && Hand.localEulerAngles.y > 225)
             {
                 HandrotateL = 2;
+                HandinfoL[5] = 2;
                 return "背面";
             }
             else
             {
                 HandrotateL = 3;
+                HandinfoL[5] = 3;
                 return "外向き";
             }
         }
@@ -106,18 +149,22 @@ public class Handchecker : MonoBehaviour
         {
             if (Hand.localEulerAngles.x <= 135 && Hand.localEulerAngles.x >= 20)//左傾斜
             {
+                HandinfoR[8] = 2;
                 return "右傾斜";
             }
             else if (Hand.localEulerAngles.x <= 225&&Hand.localEulerAngles.x >= 135)//中央
             {
+                HandinfoR[8] = 3;
                 return "エラー";
             }
             else if(Hand.localEulerAngles.x <= 340 && Hand.localEulerAngles.x >= 225)//右傾斜
             {
+                HandinfoR[8] = 0;
                 return "左傾斜";
             }
             else
             {
+                HandinfoR[8] = 1;
                 return "傾斜なし";
             }
         }
@@ -125,18 +172,22 @@ public class Handchecker : MonoBehaviour
         {
             if (Hand.localEulerAngles.x <= 135 && Hand.localEulerAngles.x >= 20)//左傾斜
             {
+                HandinfoL[8] = 2;
                 return "右傾斜";
             }
             else if (Hand.localEulerAngles.x <= 225 && Hand.localEulerAngles.x >= 135)//中央
             {
+                HandinfoL[8] = 3;
                 return "エラー";
             }
             else if (Hand.localEulerAngles.x <= 340 && Hand.localEulerAngles.x >= 225)//右傾斜
             {
+                HandinfoL[8] = 0;
                 return "左傾斜";
             }
             else
             {
+                HandinfoL[8] = 1;
                 return "傾斜なし";
             }
         }
@@ -149,28 +200,40 @@ public class Handchecker : MonoBehaviour
             if ((Hand.localPosition.y - Head.localPosition.y) <= -0.3f)
             {
                 HandposVR = 0;
+                HandinfoR[6] = 0;
                 return "胸の";
             }
             else if ((Hand.localPosition.y - Head.localPosition.y) > -0.3f)
             {
                 HandposVR = 1;
+                HandinfoR[6] = 1;
                 return "顔の";
             }
-            return "エラー";
+            else
+            {
+                HandinfoR[6] = 2;
+                return "エラー";
+            }
         }
         else
         {
             if ((Hand.localPosition.y - Head.localPosition.y) <= -0.3f)
             {
                 HandposVL = 0;
+                HandinfoL[6] = 0;
                 return "胸の";
             }
             else if ((Hand.localPosition.y - Head.localPosition.y) > -0.3f)
             {
                 HandposVL = 1;
+                HandinfoL[6] = 1;
                 return "顔の";
             }
-            return "エラー";
+            else
+            {
+                HandinfoL[6] = 2;
+                return "エラー";
+            }
         }
 
     }
@@ -181,38 +244,52 @@ public class Handchecker : MonoBehaviour
             if ((Hand.localPosition.x - Head.localPosition.x) >= 0.15f)
             {
                 HandposHR = 2;
+                HandinfoR[7] = 2;
                 return "右側";
             }
             else if ((Hand.localPosition.x - Head.localPosition.x) < 0.15f && (Hand.localPosition.x - Head.localPosition.x) > -0.15f)
             {
                 HandposHR = 1;
+                HandinfoR[7] = 1;
                 return "前";
             }
             else if ((Hand.localPosition.x - Head.localPosition.x) <= -0.15f)
             {
                 HandposHR = 0;
+                HandinfoR[7] = 0;
                 return "左側";
             }
-            return "エラー";
+            else
+            {
+                HandinfoR[7] = 3;
+                return "エラー";
+            }
         }
         else
         {
             if ((Hand.localPosition.x - Head.localPosition.x) >= 0.15f)
             {
                 HandposHL = 2;
+                HandinfoL[7] = 2;
                 return "右側";
             }
             else if ((Hand.localPosition.x - Head.localPosition.x) < 0.15f && (Hand.localPosition.x - Head.localPosition.x) > -0.15f)
             {
                 HandposHL = 1;
+                HandinfoL[7] = 1;
                 return "前";
             }
             else if ((Hand.localPosition.x - Head.localPosition.x) <= -0.15f)
             {
                 HandposHL = 0;
+                HandinfoL[7] = 0;
                 return "左側";
             }
-            return "エラー";
+            else
+            {
+                HandinfoL[7] = 3;
+                return "エラー";
+            }
         }
     }
     private bool IsStraight(bool isR,float threshold, params OVRSkeleton.BoneId[] boneids)
