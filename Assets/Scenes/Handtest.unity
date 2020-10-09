@@ -301,7 +301,6 @@ GameObject:
   m_Component:
   - component: {fileID: 367619539}
   - component: {fileID: 367619540}
-  - component: {fileID: 367619541}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -360,24 +359,8 @@ MonoBehaviour:
   HandposVL: 0
   HandposHR: 0
   HandposHL: 0
-  HandinfoL: 
-  HandinfoR: 
---- !u!114 &367619541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 367619538}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b39c61ad6b068a498e7649fc274268d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Step: 0
-  Fase: 0
-  HandL: {fileID: 0}
-  HandR: {fileID: 0}
+  HandinfoL: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  HandinfoR: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!114 &377275013 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114567484643301796, guid: 835e735ca71bf78459fb2cababd74112,
@@ -838,7 +821,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 73cac8c636eb7244d9941605d8c70403, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

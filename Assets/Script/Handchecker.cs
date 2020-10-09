@@ -16,7 +16,8 @@ public class Handchecker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+//        textL.text = "textL";
+//        textR.text = "textR";
     }
 
     // Update is called once per frame
@@ -36,10 +37,10 @@ public class Handchecker : MonoBehaviour
         isPinkyStraightL = IsStraight(false, 0.8f, OVRSkeleton.BoneId.Hand_Pinky0, OVRSkeleton.BoneId.Hand_Pinky1, OVRSkeleton.BoneId.Hand_Pinky2, OVRSkeleton.BoneId.Hand_Pinky3, OVRSkeleton.BoneId.Hand_PinkyTip);
         FingerL = new bool[] { isThumbStraightL, isIndexStraightL, isMiddleStraightL, isRingStraightL, isPinkyStraightL };
 
-        textR.text = "親指は" + IsFingerstraight(isThumbStraight) + "\n人差し指は" + IsFingerstraight(isIndexStraight) + "\n中指は" + IsFingerstraight(isMiddleStraight) + "\n薬指は" + IsFingerstraight(isRingStraight) + "\n小指は" + IsFingerstraight(isPinkyStraight) + "\n" + Handrot(HandR, true) + "\n" + Head2handposV(HandR, true) + Head2handposH(HandR, true) + "\n" + Handroll(HandR, true)/* + "\n" + HandinfoR[0].ToString() + HandinfoR[1].ToString() + HandinfoR[2].ToString() + HandinfoR[3].ToString() + HandinfoR[4].ToString() + HandinfoR[5].ToString() + HandinfoR[6].ToString() + HandinfoR[7].ToString() + HandinfoR[8].ToString()*/;
-        textL.text = "親指は" + IsFingerstraight(isThumbStraightL) + "\n人差し指は " + IsFingerstraight(isIndexStraightL) + "\n中指は" + IsFingerstraight(isMiddleStraightL) + "\n薬指は" + IsFingerstraight(isRingStraightL) + "\n小指は" + IsFingerstraight(isPinkyStraightL) + "\n" + Handrot(HandL, false) + "\n" + Head2handposV(HandL,false) + Head2handposH(HandL,false) + "\n" + Handroll(HandL, false)/*+ "\n" + HandinfoL[0].ToString() + HandinfoL[1].ToString() + HandinfoL[2].ToString() + HandinfoL[3].ToString() + HandinfoL[4].ToString() + HandinfoL[5].ToString() + HandinfoL[6].ToString() + HandinfoL[7].ToString() + HandinfoL[8].ToString()*/;
+        textR.text = "親指は" + IsFingerstraight(isThumbStraight) + "\n人差し指は" + IsFingerstraight(isIndexStraight) + "\n中指は" + IsFingerstraight(isMiddleStraight) + "\n薬指は" + IsFingerstraight(isRingStraight) + "\n小指は" + IsFingerstraight(isPinkyStraight) + "\n" + Handrot(HandR, true) + "\n" + Head2handposV(HandR, true) + Head2handposH(HandR, true) + "\n" + Handroll(HandR, true) + "\n" + HandinfoR[0].ToString() + HandinfoR[1].ToString() + HandinfoR[2].ToString() + HandinfoR[3].ToString() + HandinfoR[4].ToString() + HandinfoR[5].ToString() + HandinfoR[6].ToString() + HandinfoR[7].ToString() + HandinfoR[8].ToString();
+        textL.text = "親指は" + IsFingerstraight(isThumbStraightL) + "\n人差し指は " + IsFingerstraight(isIndexStraightL) + "\n中指は" + IsFingerstraight(isMiddleStraightL) + "\n薬指は" + IsFingerstraight(isRingStraightL) + "\n小指は" + IsFingerstraight(isPinkyStraightL) + "\n" + Handrot(HandL, false) + "\n" + Head2handposV(HandL,false) + Head2handposH(HandL,false) + "\n" + Handroll(HandL, false) + "\n" + HandinfoL[0].ToString() + HandinfoL[1].ToString() + HandinfoL[2].ToString() + HandinfoL[3].ToString() + HandinfoL[4].ToString() + HandinfoL[5].ToString() + HandinfoL[6].ToString() + HandinfoL[7].ToString() + HandinfoL[8].ToString();
 
-//        Handstatecheker();
+        Handstatecheker();
 /*        for(int i=0;i< HandinfoR.Length; i++)
         {
  //           textR.text += "\n";
