@@ -48,7 +48,7 @@ public class Handshape : MonoBehaviour
         switch (Fase)
         {
             case 0:
-                if (Fingermatch(handchecker.FingerR,new bool[] { false, true, true, false, false }))
+                if (Fingermatch(handchecker.HandinfoR,new int[] { 0, 1, 1, 0, 0 }))
                 {
                     Fase++;
                 }
@@ -58,11 +58,11 @@ public class Handshape : MonoBehaviour
                 break;
         }
     }
-    bool Fingermatch(bool[] RealFinger,bool[] CorrectFinger)
+    bool Fingermatch(int[] RealHand,int[] CorrectHand)
     {
-        for(int i = 0; i < RealFinger.Length; i++)
+        for(int i = 0; i < RealHand.Length; i++)
         {
-            if (RealFinger[i] != CorrectFinger[i])
+            if (RealHand[i] != CorrectHand[i])
             {
                 return false;
             }
