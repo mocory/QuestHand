@@ -10,6 +10,7 @@ public class Handshape : MonoBehaviour
     public OVRHand HandL, HandR;
     public Text learnmessage;
     public int[] CorrecthandL,CorrecthandR;
+    public bool AllowShapetrack;
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +57,7 @@ public class Handshape : MonoBehaviour
         {
             case 0:
                 CorrecthandR = new int[] { 0, 1, 1, 0, 0, 1, 1, 1, 1 };
+                AllowShapetrack = true;
                 if (Fingermatch(handchecker.HandinfoR,false ))
                 {
                     learnmessage.text = "お昼";
@@ -65,6 +67,7 @@ public class Handshape : MonoBehaviour
             case 1:
                 CorrecthandR = new int[] { 0, 1, 0, 0, 0, 1, 1, 2, 1 };
                 CorrecthandL = new int[] { 0, 1, 0, 0, 0, 1, 1, 0, 1 };
+                AllowShapetrack = true;
                 if (Fingermatch(handchecker.HandinfoR,false ) && Fingermatch(handchecker.HandinfoL,true ))
                 {
                     learnmessage.text = "あいさつ（１）";
@@ -74,6 +77,7 @@ public class Handshape : MonoBehaviour
             case 2:
                 CorrecthandR = new int[] { 0, 0, 0, 0, 0, 1, 1, 2, 1 };
                 CorrecthandL = new int[] { 0, 0, 0, 0, 0, 1, 1, 0, 1 };
+                AllowShapetrack = true;
                 if (Fingermatch(handchecker.HandinfoR, false) && Fingermatch(handchecker.HandinfoL, true))
                 {
                     learnmessage.text = "あいさつ（２）";
@@ -90,25 +94,30 @@ public class Handshape : MonoBehaviour
     }
     bool Fingermatch(int[] RealHand,bool IsL)
     {
-        for(int i = 0; i < RealHand.Length; i++)
+//        if (AllowShapetrack)
         {
-            if (IsL)
+            for (int i = 0; i < RealHand.Length; i++)
             {
-                if (RealHand[i] != CorrecthandL[i])
+                if (IsL)
                 {
-                    //                learnmessage.text = "入力受付中 非マッチ";
-                    return false;
+                    if (RealHand[i] != CorrecthandL[i])
+                    {
+                        //                learnmessage.text = "入力受付中 非マッチ";
+                        return false;
+                    }
+                }
+                if (!IsL)
+                {
+                    if (RealHand[i] != CorrecthandR[i])
+                    {
+                        //                learnmessage.text = "入力受付中 非マッチ";
+                        return false;
+                    }
                 }
             }
-            if (!IsL)
-            {
-                if (RealHand[i] != CorrecthandR[i])
-                {
-                    //                learnmessage.text = "入力受付中 非マッチ";
-                    return false;
-                }
-            }
+            AllowShapetrack = false;
+            return true;
         }
-        return true;
+        return false;
     }
 }
