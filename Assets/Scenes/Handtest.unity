@@ -431,6 +431,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1134146645690098936, guid: 92e45cfc50a2a2944919d377a235bccf,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1134146645690098937, guid: 92e45cfc50a2a2944919d377a235bccf,
         type: 3}
       propertyPath: m_SceneBindings.Array.size
