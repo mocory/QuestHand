@@ -293,6 +293,59 @@ public class Handchecker : MonoBehaviour
             }
         }
     }
+/*    private int IsStraight(bool isR, float threshold, params OVRSkeleton.BoneId[] boneids)
+    {
+        if (isR)
+        {
+//            if (boneids.Length < 3) return false;   //調べようがない
+            var dot = 1.0f;
+            for (var index = 0; index < 2; index++)
+            {
+                var v1 = (_skeletonR.Bones[(int)boneids[1]].Transform.position - _skeletonR.Bones[(int)boneids[0]].Transform.position).normalized;
+                var v2 = (_skeletonR.Bones[(int)boneids[3]].Transform.position - _skeletonR.Bones[(int)boneids[2]].Transform.position).normalized;
+
+                dot = Vector3.Dot(v2, v1); //内積の値を総乗していく
+            }
+            if (dot > 0.4f)
+            {
+                return 1;
+            }
+            else if (dot <= 0.4f && dot >= -0.4f)
+            {
+                return 0;
+            }
+            else if (dot < -0.4f)
+            {
+                return -1;
+            }
+//            return dot >= threshold; //指定したBoneIDの内積の総乗が閾値を超えていたら直線とみなす
+        }
+        else
+        {
+//            if (boneids.Length < 3) return false;   //調べようがない
+            var dot = 1.0f;
+            for (var index = 0; index < 2; index++)
+            {
+                var v1 = (_skeletonR.Bones[(int)boneids[1]].Transform.position - _skeletonR.Bones[(int)boneids[0]].Transform.position).normalized;
+                var v2 = (_skeletonR.Bones[(int)boneids[3]].Transform.position - _skeletonR.Bones[(int)boneids[2]].Transform.position).normalized;
+                var v = (_skeletonL.Bones[(int)boneids[index + 1]].Transform.position - _skeletonL.Bones[(int)boneids[index]].Transform.position).normalized;
+//                    dot *= Vector3.Dot(v, oldVec.Value); //内積の値を総乗していく
+            }
+            if (dot > 0.4f)
+            {
+                return 1;
+            }
+            else if (dot <= 0.4f && dot >= -0.4f)
+            {
+                return 0;
+            }
+            else if (dot < -0.4f)
+            {
+                return -1;
+            }
+        }
+    }*/
+
     private bool IsStraight(bool isR,float threshold, params OVRSkeleton.BoneId[] boneids)
     {
         if (isR)
