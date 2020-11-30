@@ -8,8 +8,8 @@ public class Handchecker : MonoBehaviour
     public Transform HandR, HandL,Head;
     public OVRSkeleton _skeletonR,_skeletonL; //右手、もしくは左手の Bone情報
     public Text textR,textL;
-    public bool isIndexStraight, isMiddleStraight, isRingStraight, isPinkyStraight, isThumbStraight, isIndexStraightL, isMiddleStraightL, isRingStraightL, isPinkyStraightL, isThumbStraightL;
-    public bool[] FingerR, FingerL;
+    public int isIndexStraight, isMiddleStraight, isRingStraight, isPinkyStraight, isThumbStraight, isIndexStraightL, isMiddleStraightL, isRingStraightL, isPinkyStraightL, isThumbStraightL;
+    public int[] FingerR, FingerL;
     public int HandrotateR, HandrotateL, HandposVR, HandposVL, HandposHR, HandposHL;
     public int[] HandinfoL, HandinfoR;
 
@@ -28,14 +28,14 @@ public class Handchecker : MonoBehaviour
         isMiddleStraight = IsStraight(true, 0.8f, OVRSkeleton.BoneId.Hand_Middle1, OVRSkeleton.BoneId.Hand_Middle2, OVRSkeleton.BoneId.Hand_Middle3, OVRSkeleton.BoneId.Hand_MiddleTip);
         isRingStraight = IsStraight(true, 0.8f, OVRSkeleton.BoneId.Hand_Ring1, OVRSkeleton.BoneId.Hand_Ring2, OVRSkeleton.BoneId.Hand_Ring3, OVRSkeleton.BoneId.Hand_RingTip);
         isPinkyStraight = IsStraight(true, 0.8f, OVRSkeleton.BoneId.Hand_Pinky0, OVRSkeleton.BoneId.Hand_Pinky1, OVRSkeleton.BoneId.Hand_Pinky2, OVRSkeleton.BoneId.Hand_Pinky3, OVRSkeleton.BoneId.Hand_PinkyTip);
-        FingerR= new bool[] { isThumbStraight,isIndexStraight,isMiddleStraight,isRingStraight,isPinkyStraight };
+        FingerR= new int[] { isThumbStraight,isIndexStraight,isMiddleStraight,isRingStraight,isPinkyStraight };
 
         isThumbStraightL = IsStraight(false, 0.8f, OVRSkeleton.BoneId.Hand_Thumb1, OVRSkeleton.BoneId.Hand_Thumb2, OVRSkeleton.BoneId.Hand_Thumb3, OVRSkeleton.BoneId.Hand_ThumbTip);
         isIndexStraightL = IsStraight(false, 0.8f, OVRSkeleton.BoneId.Hand_Index1, OVRSkeleton.BoneId.Hand_Index2, OVRSkeleton.BoneId.Hand_Index3, OVRSkeleton.BoneId.Hand_IndexTip);
         isMiddleStraightL = IsStraight(false, 0.8f, OVRSkeleton.BoneId.Hand_Middle1, OVRSkeleton.BoneId.Hand_Middle2, OVRSkeleton.BoneId.Hand_Middle3, OVRSkeleton.BoneId.Hand_MiddleTip);
         isRingStraightL = IsStraight(false, 0.8f, OVRSkeleton.BoneId.Hand_Ring1, OVRSkeleton.BoneId.Hand_Ring2, OVRSkeleton.BoneId.Hand_Ring3, OVRSkeleton.BoneId.Hand_RingTip);
         isPinkyStraightL = IsStraight(false, 0.8f, OVRSkeleton.BoneId.Hand_Pinky0, OVRSkeleton.BoneId.Hand_Pinky1, OVRSkeleton.BoneId.Hand_Pinky2, OVRSkeleton.BoneId.Hand_Pinky3, OVRSkeleton.BoneId.Hand_PinkyTip);
-        FingerL = new bool[] { isThumbStraightL, isIndexStraightL, isMiddleStraightL, isRingStraightL, isPinkyStraightL };
+        FingerL = new int[] { isThumbStraightL, isIndexStraightL, isMiddleStraightL, isRingStraightL, isPinkyStraightL };
 
         textR.text = "親指は" + IsFingerstraight(isThumbStraight) + "\n人差し指は" + IsFingerstraight(isIndexStraight) + "\n中指は" + IsFingerstraight(isMiddleStraight) + "\n薬指は" + IsFingerstraight(isRingStraight) + "\n小指は" + IsFingerstraight(isPinkyStraight) + "\n" + Handrot(HandR, true) + "\n" + Head2handposV(HandR, true) + Head2handposH(HandR, true) + "\n" + Handroll(HandR, true) + "\n" + HandinfoR[0].ToString() + HandinfoR[1].ToString() + HandinfoR[2].ToString() + HandinfoR[3].ToString() + HandinfoR[4].ToString() + HandinfoR[5].ToString() + HandinfoR[6].ToString() + HandinfoR[7].ToString() + HandinfoR[8].ToString();
         textL.text = "親指は" + IsFingerstraight(isThumbStraightL) + "\n人差し指は " + IsFingerstraight(isIndexStraightL) + "\n中指は" + IsFingerstraight(isMiddleStraightL) + "\n薬指は" + IsFingerstraight(isRingStraightL) + "\n小指は" + IsFingerstraight(isPinkyStraightL) + "\n" + Handrot(HandL, false) + "\n" + Head2handposV(HandL,false) + Head2handposH(HandL,false) + "\n" + Handroll(HandL, false) + "\n" + HandinfoL[0].ToString() + HandinfoL[1].ToString() + HandinfoL[2].ToString() + HandinfoL[3].ToString() + HandinfoL[4].ToString() + HandinfoL[5].ToString() + HandinfoL[6].ToString() + HandinfoL[7].ToString() + HandinfoL[8].ToString();
@@ -58,32 +58,37 @@ public class Handchecker : MonoBehaviour
         Fingerchecker();
     }
 
-    string IsFingerstraight(bool fingerstraight)
+    string IsFingerstraight(int fingerstraight)
     {
-        if (fingerstraight)
+        if (fingerstraight==1)
         {
             return "伸びている";
         }
-        else
+        else if (fingerstraight == -1)
         {
             return "曲げている";
         }
+        else
+        {
+            return "畳んでいる";
+        }
+
     }
 
     void Fingerchecker()
     {
         //左手
-        HandinfoL[0] = (isThumbStraightL) ? 1 : 0;
-        HandinfoL[1] = (isIndexStraightL) ? 1 : 0;
-        HandinfoL[2] = (isMiddleStraightL) ? 1 : 0;
-        HandinfoL[3] = (isRingStraightL) ? 1 : 0;
-        HandinfoL[4] = (isPinkyStraightL) ? 1 : 0;
+        HandinfoL[0] = isThumbStraightL;
+        HandinfoL[1] = isIndexStraightL;
+        HandinfoL[2] = isMiddleStraightL;
+        HandinfoL[3] = isRingStraightL;
+        HandinfoL[4] = isPinkyStraightL;
         //右手
-        HandinfoR[0] = (isThumbStraight) ? 1 : 0;
-        HandinfoR[1] = (isIndexStraight) ? 1 : 0;
-        HandinfoR[2] = (isMiddleStraight) ? 1 : 0;
-        HandinfoR[3] = (isRingStraight) ? 1 : 0;
-        HandinfoR[4] = (isPinkyStraight) ? 1 : 0;
+        HandinfoR[0] = isThumbStraight;
+        HandinfoR[1] = isIndexStraight;
+        HandinfoR[2] = isMiddleStraight;
+        HandinfoR[3] = isRingStraight;
+        HandinfoR[4] = isPinkyStraight;
     }
 
     string Handrot(Transform Hand,bool IsR)
@@ -293,19 +298,16 @@ public class Handchecker : MonoBehaviour
             }
         }
     }
-/*    private int IsStraight(bool isR, float threshold, params OVRSkeleton.BoneId[] boneids)
+    private int IsStraight(bool isR, float threshold, params OVRSkeleton.BoneId[] boneids)
     {
         if (isR)
         {
-//            if (boneids.Length < 3) return false;   //調べようがない
+//            if (boneids.Length < 3) return 1;   //調べようがない
             var dot = 1.0f;
-            for (var index = 0; index < 2; index++)
-            {
                 var v1 = (_skeletonR.Bones[(int)boneids[1]].Transform.position - _skeletonR.Bones[(int)boneids[0]].Transform.position).normalized;
                 var v2 = (_skeletonR.Bones[(int)boneids[3]].Transform.position - _skeletonR.Bones[(int)boneids[2]].Transform.position).normalized;
 
-                dot = Vector3.Dot(v2, v1); //内積の値を総乗していく
-            }
+                dot = Vector3.Dot(v2, v1); //内積の値
             if (dot > 0.4f)
             {
                 return 1;
@@ -314,7 +316,7 @@ public class Handchecker : MonoBehaviour
             {
                 return 0;
             }
-            else if (dot < -0.4f)
+            else
             {
                 return -1;
             }
@@ -322,13 +324,12 @@ public class Handchecker : MonoBehaviour
         }
         else
         {
-//            if (boneids.Length < 3) return false;   //調べようがない
+//            if (boneids.Length < 3) return 1;   //調べようがない
             var dot = 1.0f;
             for (var index = 0; index < 2; index++)
             {
-                var v1 = (_skeletonR.Bones[(int)boneids[1]].Transform.position - _skeletonR.Bones[(int)boneids[0]].Transform.position).normalized;
-                var v2 = (_skeletonR.Bones[(int)boneids[3]].Transform.position - _skeletonR.Bones[(int)boneids[2]].Transform.position).normalized;
-                var v = (_skeletonL.Bones[(int)boneids[index + 1]].Transform.position - _skeletonL.Bones[(int)boneids[index]].Transform.position).normalized;
+                var v1 = (_skeletonL.Bones[(int)boneids[1]].Transform.position - _skeletonL.Bones[(int)boneids[0]].Transform.position).normalized;
+                var v2 = (_skeletonL.Bones[(int)boneids[3]].Transform.position - _skeletonL.Bones[(int)boneids[2]].Transform.position).normalized;
 //                    dot *= Vector3.Dot(v, oldVec.Value); //内積の値を総乗していく
             }
             if (dot > 0.4f)
@@ -339,14 +340,14 @@ public class Handchecker : MonoBehaviour
             {
                 return 0;
             }
-            else if (dot < -0.4f)
+            else
             {
                 return -1;
             }
         }
-    }*/
+    }
 
-    private bool IsStraight(bool isR,float threshold, params OVRSkeleton.BoneId[] boneids)
+    private bool IsStraightold(bool isR,float threshold, params OVRSkeleton.BoneId[] boneids)
     {
         if (isR)
         {
