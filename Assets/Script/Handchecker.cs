@@ -326,12 +326,10 @@ public class Handchecker : MonoBehaviour
         {
 //            if (boneids.Length < 3) return 1;   //調べようがない
             var dot = 1.0f;
-            for (var index = 0; index < 2; index++)
-            {
                 var v1 = (_skeletonL.Bones[(int)boneids[1]].Transform.position - _skeletonL.Bones[(int)boneids[0]].Transform.position).normalized;
                 var v2 = (_skeletonL.Bones[(int)boneids[3]].Transform.position - _skeletonL.Bones[(int)boneids[2]].Transform.position).normalized;
-//                    dot *= Vector3.Dot(v, oldVec.Value); //内積の値を総乗していく
-            }
+          
+            dot = Vector3.Dot(v2, v1); //内積の値
             if (dot > 0.4f)
             {
                 return 1;

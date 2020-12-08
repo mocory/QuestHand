@@ -60,7 +60,7 @@ public class Handshape : MonoBehaviour
         {
             case 0:
                 Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
-                CorrecthandR = new int[] { 0, 1, 1, 0, 0, 1, 1, 1, 1 };
+                CorrecthandR = new int[] { 0, 1, 1, -1, -1, 1, 1, 1, 1 };
                 AllowShapetrack = true;
                 learnmessage.text = "お昼" +
          "\nを意味する手話";
@@ -72,8 +72,8 @@ public class Handshape : MonoBehaviour
             case 1:
                 Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
                 Otehon.transform.GetChild(Fase - 1).gameObject.SetActive(false);
-                CorrecthandR = new int[] { 0, 1, 0, 0, 0, 1, 1, 2, 1 };
-                CorrecthandL = new int[] { 0, 1, 0, 0, 0, 1, 1, 0, 1 };
+                CorrecthandR = new int[] { 0, 1, -1, -1, -1, 1, 1, 2, 1 };
+                CorrecthandL = new int[] { 0, 1, -1, -1, -1, 1, 1, 0, 1 };
                 AllowShapetrack = true;
                 learnmessage.text = "あいさつ" +
             "\nを意味する手話" +
@@ -86,8 +86,8 @@ public class Handshape : MonoBehaviour
             case 2:
                 Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
                 Otehon.transform.GetChild(Fase - 1).gameObject.SetActive(false);
-                CorrecthandR = new int[] { 0, 0, 0, 0, 0, 1, 1, 2, 1 };
-                CorrecthandL = new int[] { 0, 0, 0, 0, 0, 1, 1, 0, 1 };
+                CorrecthandR = new int[] { 0, 0, -1, -1, -1, 1, 1, 2, 1 };
+                CorrecthandL = new int[] { 0, 0, -1, -1, -1, 1, 1, 0, 1 };
                 AllowShapetrack = true;
                 learnmessage.text = "あいさつ" +
         "\nを意味する手話" +
