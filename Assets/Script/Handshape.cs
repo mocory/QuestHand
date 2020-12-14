@@ -13,15 +13,23 @@ public class Handshape : MonoBehaviour
     public bool AllowShapetrack;
     public GameObject Otehon;
     public Material RMat, LMat, OKMat;
+    bool IsLcorrect, IsRcorrect;
+    public GameObject box;
     // Start is called before the first frame update
     void Start()
     {
         handchecker = GetComponent<Handchecker>();
+        CorrecthandR = new int[] { 0,0,0,0,0,0,0,0,0 };
+        CorrecthandL = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     }
 
     // Update is called once per frame
     void Update()
     {
+        Correctcolor();
+        CorrectcolorR();
+        Fingermatch();
+//        colorchange();
         switch (Step)
         {
             case 0:
@@ -30,6 +38,41 @@ public class Handshape : MonoBehaviour
             case 1:
                 Hello();
                 break;
+        }
+    }
+    void colorchange()
+    {
+        if ((int)Time.time % 2 == 1)
+        {
+            IsLcorrect = true;
+            IsRcorrect = false;
+        }
+        else
+        {
+            IsLcorrect = false;
+            IsRcorrect = true;
+        }
+    }
+    void Correctcolor()
+    {
+        if (IsLcorrect)
+        {
+            Otehon.transform.GetChild(Fase).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.color = new Color(0, 1, 0);
+        }
+        else
+        {
+            Otehon.transform.GetChild(Fase).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.color = Color.blue;
+        }
+    }
+    void CorrectcolorR()
+    {
+        if (IsRcorrect)
+        {
+            Otehon.transform.GetChild(Fase).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = new Color(0, 1, 0);
+        }
+        else
+        {
+            Otehon.transform.GetChild(Fase).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = Color.red;
         }
     }
 
@@ -64,7 +107,7 @@ public class Handshape : MonoBehaviour
                 AllowShapetrack = true;
                 learnmessage.text = "お昼" +
          "\nを意味する手話";
-                if (Fingermatch(handchecker.HandinfoR,false ))
+                if (IsRcorrect)
                 {
                     Fase++;
                 }
@@ -78,7 +121,7 @@ public class Handshape : MonoBehaviour
                 learnmessage.text = "あいさつ" +
             "\nを意味する手話" +
             "（１）";
-                if (Fingermatch(handchecker.HandinfoR,false ) && Fingermatch(handchecker.HandinfoL,true ))
+                if (IsRcorrect && IsLcorrect)
                 {
                     Fase++;
                 }
@@ -92,7 +135,7 @@ public class Handshape : MonoBehaviour
                 learnmessage.text = "あいさつ" +
         "\nを意味する手話" +
         "（２）";
-                if (Fingermatch(handchecker.HandinfoR, false) && Fingermatch(handchecker.HandinfoL, true))
+                if (IsRcorrect && IsLcorrect)
                 {
                     //                    yield return new WaitForSeconds(2);
 //                    yield return null;
@@ -119,41 +162,35 @@ public class Handshape : MonoBehaviour
                 break;
         }
     }
-    bool Fingermatch(int[] RealHand,bool IsL)
+    void Fingermatch()
     {
 //        if (AllowShapetrack)
         {
-            for (int i = 0; i < RealHand.Length; i++)
+            for (int i = 0; i < handchecker.HandinfoL.Length; i++)
             {
-                if (IsL)
-                {
-                    if (RealHand[i] != CorrecthandL[i])
+                    if (handchecker.HandinfoL[i] != CorrecthandL[i]) //L側
                     {
-                        Otehon.transform.GetChild(Fase).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.color = Color.blue;
-                        //                learnmessage.text = "入力受付中 非マッチ";
-                        return false;
+                        IsLcorrect = false;
+                        
                     }
                     else
                     {
-                        Otehon.transform.GetChild(Fase).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.color = new Color(0, 1, 0, 0.7f);
+                        IsLcorrect = true;
                     }
+
+            }
+            for(int i = 0; i < handchecker.HandinfoR.Length; i++)
+            {
+                if (handchecker.HandinfoR[i] != CorrecthandR[i]) //R側
+                {
+                    IsRcorrect = false;
                 }
-                if (!IsL)
+                else
                 {
-                    if (RealHand[i] != CorrecthandR[i])
-                    {
-                        Otehon.transform.GetChild(Fase).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = Color.red;
-                        //                learnmessage.text = "入力受付中 非マッチ";
-                        return false;
-                    }
-                    else
-                    {
-                        Otehon.transform.GetChild(Fase).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = new Color(0, 1, 0, 0.7f);
-                    }
+                    IsRcorrect = true;
                 }
             }
-            AllowShapetrack = false;
-            return true;
+            //            AllowShapetrack = false;
         }
     }
 }
