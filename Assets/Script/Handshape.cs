@@ -13,8 +13,8 @@ public class Handshape : MonoBehaviour
     public bool AllowShapetrack;
     public GameObject Otehon;
     public Material RMat, LMat, OKMat;
-    bool IsLcorrect, IsRcorrect;
-    public GameObject box;
+    public bool IsLcorrect, IsRcorrect;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -109,6 +109,7 @@ public class Handshape : MonoBehaviour
          "\nを意味する手話";
                 if (IsRcorrect)
                 {
+                    Correctreset();
                     Fase++;
                 }
                 break;
@@ -123,6 +124,7 @@ public class Handshape : MonoBehaviour
             "（１）";
                 if (IsRcorrect && IsLcorrect)
                 {
+                    Correctreset();
                     Fase++;
                 }
                 break;
@@ -138,7 +140,8 @@ public class Handshape : MonoBehaviour
                 if (IsRcorrect && IsLcorrect)
                 {
                     //                    yield return new WaitForSeconds(2);
-//                    yield return null;
+                    //                    yield return null;
+                    Correctreset();
                     Fase++;
                 }
                 break;
@@ -175,7 +178,7 @@ public class Handshape : MonoBehaviour
                     }
                     else
                     {
-                        IsLcorrect = true;
+                        IsLcorrect = true;//この辺がおかしい
                     }
 
             }
@@ -187,10 +190,17 @@ public class Handshape : MonoBehaviour
                 }
                 else
                 {
-                    IsRcorrect = true;
+                    IsRcorrect = true;//この辺がおかしい
                 }
             }
             //            AllowShapetrack = false;
         }
+    }
+    void Correctreset()
+    {
+        CorrecthandR = new int[] { 9,9,9,9,9,9,9,9,9 };
+        CorrecthandL = new int[] { 9,9,9,9,9,9,9,9,9 };
+        IsLcorrect = false;
+        IsRcorrect = false;
     }
 }
