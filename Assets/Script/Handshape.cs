@@ -19,8 +19,8 @@ public class Handshape : MonoBehaviour
     void Start()
     {
         handchecker = GetComponent<Handchecker>();
-        CorrecthandR = new int[] { 0,0,0,0,0,0,0,0,0 };
-        CorrecthandL = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        CorrecthandR = new int[] { 9, 9, 9, 9, 9, 9, 9, 9, 9 };
+        CorrecthandL = new int[] { 9, 9, 9, 9, 9, 9, 9, 9, 9 };
     }
 
     // Update is called once per frame
@@ -171,22 +171,22 @@ public class Handshape : MonoBehaviour
         {
             for (int i = 0; i < handchecker.HandinfoL.Length; i++)
             {
-                    if (handchecker.HandinfoL[i] != CorrecthandL[i]) //L側
-                    {
-                        IsLcorrect = false;
-                        
-                    }
-                    else
-                    {
-                        IsLcorrect = true;//この辺がおかしい
-                    }
-
+                if (handchecker.HandinfoL[i] != CorrecthandL[i]) //L側
+                {
+                    IsLcorrect = false;
+                    break;
+                }
+                else
+                {
+                    IsLcorrect = true;//この辺がおかしい
+                }
             }
-            for(int i = 0; i < handchecker.HandinfoR.Length; i++)
+            for (int i = 0; i < handchecker.HandinfoR.Length; i++)
             {
                 if (handchecker.HandinfoR[i] != CorrecthandR[i]) //R側
                 {
                     IsRcorrect = false;
+                    break;
                 }
                 else
                 {
