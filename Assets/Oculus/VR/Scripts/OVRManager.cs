@@ -1,12 +1,8 @@
 /************************************************************************************
 Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
-Licensed under the Oculus Master SDK License Version 1.0 (the "License"); you may not use
-the Utilities SDK except in compliance with the License, which is provided at the time of installation
-or download, or which otherwise accompanies this software in either electronic or hard copy form.
-
-You may obtain a copy of the License at
-https://developer.oculus.com/licenses/oculusmastersdk-1.0/
+Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
+https://developer.oculus.com/licenses/oculussdk/
 
 Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
 under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
@@ -32,6 +28,7 @@ permissions and limitations under the License.
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -52,9 +49,17 @@ using Node = UnityEngine.XR.XRNode;
 /// </summary>
 public class OVRManager : MonoBehaviour
 {
+	public enum XrApi
+	{
+		Unknown = OVRPlugin.XrApi.Unknown,
+		CAPI = OVRPlugin.XrApi.CAPI,
+		VRAPI = OVRPlugin.XrApi.VRAPI,
+		OpenXR = OVRPlugin.XrApi.OpenXR,
+	}
+
 	public enum TrackingOrigin
 	{
-		EyeLevel   = OVRPlugin.TrackingOrigin.EyeLevel,
+		EyeLevel = OVRPlugin.TrackingOrigin.EyeLevel,
 		FloorLevel = OVRPlugin.TrackingOrigin.FloorLevel,
 		Stage = OVRPlugin.TrackingOrigin.Stage,
 	}
@@ -85,11 +90,39 @@ public class OVRManager : MonoBehaviour
 		LMSHighTop = OVRPlugin.TiledMultiResLevel.LMSHighTop,
 	}
 
+	public enum SystemHeadsetType
+	{
+		None = OVRPlugin.SystemHeadset.None,
+
+		// Standalone headsets
+		Oculus_Quest = OVRPlugin.SystemHeadset.Oculus_Quest,
+		Oculus_Quest_2 = OVRPlugin.SystemHeadset.Oculus_Quest_2,
+		Placeholder_10 = OVRPlugin.SystemHeadset.Placeholder_10,
+		Placeholder_11 = OVRPlugin.SystemHeadset.Placeholder_11,
+		Placeholder_12 = OVRPlugin.SystemHeadset.Placeholder_12,
+		Placeholder_13 = OVRPlugin.SystemHeadset.Placeholder_13,
+		Placeholder_14 = OVRPlugin.SystemHeadset.Placeholder_14,
+
+		// PC headsets
+		Rift_DK1 = OVRPlugin.SystemHeadset.Rift_DK1,
+		Rift_DK2 = OVRPlugin.SystemHeadset.Rift_DK2,
+		Rift_CV1 = OVRPlugin.SystemHeadset.Rift_CV1,
+		Rift_CB = OVRPlugin.SystemHeadset.Rift_CB,
+		Rift_S = OVRPlugin.SystemHeadset.Rift_S,
+		Oculus_Link_Quest = OVRPlugin.SystemHeadset.Oculus_Link_Quest,
+		Oculus_Link_Quest_2 = OVRPlugin.SystemHeadset.Oculus_Link_Quest_2,
+		PC_Placeholder_4103 = OVRPlugin.SystemHeadset.PC_Placeholder_4103,
+		PC_Placeholder_4104 = OVRPlugin.SystemHeadset.PC_Placeholder_4104,
+		PC_Placeholder_4105 = OVRPlugin.SystemHeadset.PC_Placeholder_4105,
+		PC_Placeholder_4106 = OVRPlugin.SystemHeadset.PC_Placeholder_4106,
+		PC_Placeholder_4107 = OVRPlugin.SystemHeadset.PC_Placeholder_4107
+	}
+
 	public enum XRDevice
 	{
-		Unknown			= 0,
-		Oculus			= 1,
-		OpenVR			= 2,
+		Unknown = 0,
+		Oculus = 1,
+		OpenVR = 2,
 	}
 
 	/// <summary>
@@ -190,13 +223,19 @@ public class OVRManager : MonoBehaviour
 	public static event Action TrackingLost;
 
 	/// <summary>
+	/// Occurs when the display refresh rate changes
+	/// @params (float fromRefreshRate, float toRefreshRate)
+	/// </summary>
+	public static event Action<float, float> DisplayRefreshRateChanged;
+
+	/// <summary>
 	/// Occurs when Health & Safety Warning is dismissed.
 	/// </summary>
 	//Disable the warning about it being unused. It's deprecated.
-	#pragma warning disable 0067
+#pragma warning disable 0067
 	[Obsolete]
 	public static event Action HSWDismissed;
-	#pragma warning restore
+#pragma warning restore
 
 	private static bool _isHmdPresentCached = false;
 	private static bool _isHmdPresent = false;
@@ -623,7 +662,42 @@ public class OVRManager : MonoBehaviour
 	/// </summary>
 	[HideInInspector, Tooltip("(Quest-only) control if the mixed reality capture mode can be activated automatically through remote network connection.")]
 	public MrcActivationMode mrcActivationMode;
+
+
 #endif
+
+	/// <summary>
+	/// The native XR API being used
+	/// </summary>
+	public XrApi xrApi
+	{
+		get
+		{
+			return (XrApi)OVRPlugin.nativeXrApi;
+		}
+	}
+
+	/// <summary>
+	/// The value of current XrInstance when using OpenXR
+	/// </summary>
+	public UInt64 xrInstance
+	{
+		get
+		{
+			return OVRPlugin.GetNativeOpenXRInstance();
+		}
+	}
+
+	/// <summary>
+	/// The value of current XrSession when using OpenXR
+	/// </summary>
+	public UInt64 xrSession
+	{
+		get
+		{
+			return OVRPlugin.GetNativeOpenXRSession();
+		}
+	}
 
 	/// <summary>
 	/// The number of expected display frames per rendered frame.
@@ -897,6 +971,17 @@ public class OVRManager : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Get the system headset type
+	/// </summary>
+	public static SystemHeadsetType systemHeadsetType
+	{
+		get
+		{
+			return (SystemHeadsetType)OVRPlugin.GetSystemHeadsetType();
+		}
+	}
+
+	/// <summary>
 	/// Sets the Color Scale and Offset which is commonly used for effects like fade-to-black.
 	/// In our compositor, once a given frame is rendered, warped, and ready to be displayed, we then multiply
 	/// each pixel by colorScale and add it to colorOffset, whereby newPixel = oldPixel * colorScale + colorOffset.
@@ -1050,6 +1135,8 @@ public class OVRManager : MonoBehaviour
 	private static string prevAudioInId = string.Empty;
 	private static bool wasPositionTracked = false;
 
+	private static OVRPlugin.EventDataBuffer eventDataBuffer = new OVRPlugin.EventDataBuffer();
+
 	public static System.Version utilitiesVersion
 	{
 		get { return OVRPlugin.wrapperVersion; }
@@ -1163,7 +1250,12 @@ public class OVRManager : MonoBehaviour
 				"OVRPlugin v" + OVRPlugin.version + ", " +
 				"SDK v" + OVRPlugin.nativeSDKVersion + ".");
 
-		Debug.Log("SystemHeadset " + OVRPlugin.GetSystemHeadsetType().ToString());
+		Debug.LogFormat("SystemHeadset {0}, API {1}", systemHeadsetType.ToString(), xrApi.ToString());
+
+		if (xrApi == XrApi.OpenXR)
+		{
+			Debug.LogFormat("OpenXR instance 0x{0:X} session 0x{1:X}", xrInstance, xrSession);
+		}
 
 #if !UNITY_EDITOR
 		if (IsUnityAlphaOrBetaVersion())
@@ -1268,6 +1360,9 @@ public class OVRManager : MonoBehaviour
 
 		Initialize();
 
+		Debug.LogFormat("Current display frequency {0}, available frequencies [{1}]", 
+			display.displayFrequency, string.Join(", ", display.displayFrequenciesAvailable.Select(f => f.ToString()).ToArray()));
+
 		if (resetTrackerOnLoad)
 			display.RecenterPose();
 
@@ -1298,6 +1393,7 @@ public class OVRManager : MonoBehaviour
 		// be aware there are performance drops if you don't use occlusionMesh.
 		OVRPlugin.occlusionMesh = true;
 #endif
+
 		OVRManagerinitialized = true;
 
 	}
@@ -1722,9 +1818,31 @@ public class OVRManager : MonoBehaviour
 		display.Update();
 		OVRInput.Update();
 
+		UpdateHMDEvents();
+
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || OVR_ANDROID_MRC
 		StaticUpdateMixedRealityCapture(this);
 #endif
+	}
+
+	private void UpdateHMDEvents()
+	{
+		while(OVRPlugin.PollEvent(ref eventDataBuffer))
+		{
+			switch(eventDataBuffer.EventType)
+			{
+				case OVRPlugin.EventType.DisplayRefreshRateChanged:
+					if(DisplayRefreshRateChanged != null)
+					{
+						float FromRefreshRate = BitConverter.ToSingle(eventDataBuffer.EventData, 0);
+						float ToRefreshRate = BitConverter.ToSingle(eventDataBuffer.EventData, 4);
+						DisplayRefreshRateChanged(FromRefreshRate, ToRefreshRate);
+					}
+					break;
+				default:
+					break;
+			}
+		}
 	}
 
 	private bool multipleMainCameraWarningPresented = false;
@@ -1991,4 +2109,5 @@ public class OVRManager : MonoBehaviour
 	}
 
 #endif
+
 }

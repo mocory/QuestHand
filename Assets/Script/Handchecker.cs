@@ -66,11 +66,11 @@ public class Handchecker : MonoBehaviour
         }
         else if (fingerstraight == -1)
         {
-            return "曲げている";
+            return "折り畳んでいる";
         }
         else
         {
-            return "畳んでいる";
+            return "曲げている";
         }
 
     }

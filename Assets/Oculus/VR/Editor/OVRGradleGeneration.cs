@@ -103,6 +103,26 @@ public class OVRGradleGeneration
 		}
 #endif
 
+#if UNITY_ANDROID
+		bool useOpenXR = OVRPluginUpdater.IsOVRPluginOpenXRActivated();
+#if USING_XR_SDK
+		if (useOpenXR)
+		{
+			UnityEngine.Debug.LogWarning("Oculus Utilities Plugin with OpenXR is being used, which is under experimental status");
+
+			if (PlayerSettings.colorSpace != ColorSpace.Linear)
+			{
+				throw new BuildFailedException("Oculus Utilities Plugin with OpenXR only supports linear lighting. Please set 'Rendering/Color Space' to 'Linear' in Player Settings");
+			}
+		}
+#else
+		if (useOpenXR)
+		{
+			throw new BuildFailedException("Oculus Utilities Plugin with OpenXR only supports XR Plug-in Managmenent with Oculus XR Plugin.");
+		}
+#endif
+#endif
+
 #if UNITY_ANDROID && USING_XR_SDK && !USING_COMPATIBLE_OCULUS_XR_PLUGIN_VERSION
 		if (PlayerSettings.Android.targetArchitectures != AndroidArchitecture.ARM64)
 			throw new BuildFailedException("Your project is using an Oculus XR Plugin version with known issues. Please navigate to the Package Manager and upgrade the Oculus XR Plugin to the latest verified version. When performing the upgrade" +
@@ -141,12 +161,15 @@ public class OVRGradleGeneration
 		UnityEngine.Debug.Log("OVRGradleGeneration triggered.");
 
 		var targetOculusPlatform = new List<string>();
-		if (OVRDeviceSelector.isTargetDeviceQuest)
+		if (OVRDeviceSelector.isTargetDeviceQuestFamily)
 		{
 			targetOculusPlatform.Add("quest");
 		}
 		OVRPlugin.AddCustomMetadata("target_oculus_platform", String.Join("_", targetOculusPlatform.ToArray()));
-		UnityEngine.Debug.LogFormat("Quest = {0}", OVRDeviceSelector.isTargetDeviceQuest);
+		UnityEngine.Debug.LogFormat("QuestFamily = {0}: Quest = {1}, Quest2 = {2}", 
+			OVRDeviceSelector.isTargetDeviceQuestFamily,
+			OVRDeviceSelector.isTargetDeviceQuest,
+			OVRDeviceSelector.isTargetDeviceQuest2);
 
 #if UNITY_2019_3_OR_NEWER
 		string gradleBuildPath = Path.Combine(path, "../launcher/build.gradle");
