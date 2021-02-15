@@ -76,12 +76,16 @@ public class Handshape : MonoBehaviour
         }
     }
 
+    public void Pressbutton()
+    {
+        Step = 1;
+    }
     void Learnstart()
     {
-        if (HandL.GetFingerIsPinching(OVRHand.HandFinger.Index))
+/*        if (HandL.GetFingerIsPinching(OVRHand.HandFinger.Index))
         {
             Step = 1;
-        }
+        }*/
         /*        else if (HandL.GetFingerIsPinching(OVRHand.HandFinger.Middle))
                 {
                     Step = 2;
@@ -90,11 +94,9 @@ public class Handshape : MonoBehaviour
                 {
                     Step = 3;
                 }*/
-        else
-        {
+
             learnmessage.text = "学習モード待機中" +
-                "\n\n左人差し指をピンチして下さい";
-        }
+                "\n\n左ボタンを押して下さい";
     }
 
     void Hello()
