@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using OculusSampleFramework;
 
 public class Handshape : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class Handshape : MonoBehaviour
     public GameObject Otehon;
     public Material RMat, LMat, OKMat;
     public bool IsLcorrect, IsRcorrect;
+    [SerializeField] ButtonController _buttonController;
 
     // Start is called before the first frame update
     void Start()
@@ -82,10 +84,10 @@ public class Handshape : MonoBehaviour
     }
     void Learnstart()
     {
-/*        if (HandL.GetFingerIsPinching(OVRHand.HandFinger.Index))
-        {
-            Step = 1;
-        }*/
+        /*        if (HandL.GetFingerIsPinching(OVRHand.HandFinger.Index))
+                {
+                    Step = 1;
+                }*/
         /*        else if (HandL.GetFingerIsPinching(OVRHand.HandFinger.Middle))
                 {
                     Step = 2;
@@ -94,6 +96,13 @@ public class Handshape : MonoBehaviour
                 {
                     Step = 3;
                 }*/
+        _buttonController.ActionZoneEvent += args =>
+        {
+            if (args.InteractionT == InteractionType.Enter)
+            {
+                Pressbutton();
+            }
+        };
 
             learnmessage.text = "学習モード待機中" +
                 "\n\n左ボタンを押して下さい";
