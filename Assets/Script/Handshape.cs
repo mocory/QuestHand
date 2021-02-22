@@ -96,13 +96,13 @@ public class Handshape : MonoBehaviour
                 {
                     Step = 3;
                 }*/
-        _buttonController.ActionZoneEvent += args =>
+/*        _buttonController.ActionZoneEvent += args =>
         {
             if (args.InteractionT == InteractionType.Enter)
             {
                 Pressbutton();
             }
-        };
+        };*/
 
             learnmessage.text = "学習モード待機中" +
                 "\n\n左ボタンを押して下さい";
