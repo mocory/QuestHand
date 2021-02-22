@@ -380,6 +380,7 @@ GameObject:
   - component: {fileID: 367619539}
   - component: {fileID: 367619540}
   - component: {fileID: 367619541}
+  - component: {fileID: 367619542}
   m_Layer: 0
   m_Name: Master
   m_TagString: Untagged
@@ -454,6 +455,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Step: 0
   Fase: 0
+  UISelectedstep: 0
+  UISelectedmode: 0
   HandL: {fileID: 832252662}
   HandR: {fileID: 1861436085}
   learnmessage: {fileID: 76521027}
@@ -467,6 +470,18 @@ MonoBehaviour:
   IsLcorrect: 0
   IsRcorrect: 0
   _buttonController: {fileID: 377275008}
+--- !u!114 &367619542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367619538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d94d5a1ed4598b4493b7b5dce0b51f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &377275008 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2973627772683837059, guid: 41af5c92dc71a064a9d2c28ce742f99b,
