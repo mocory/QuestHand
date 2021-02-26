@@ -105,7 +105,7 @@ public class Handshape : MonoBehaviour
         };*/
 
             learnmessage.text = "学習モード待機中" +
-                "\n\n左ボタンを押して下さい";
+                "\n\n決定ボタンを押して下さい";
     }
 
     void Hello()
