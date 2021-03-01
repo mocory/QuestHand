@@ -8,7 +8,7 @@ public class UIcontrol : MonoBehaviour
 {
     public int UISelectedstep, UISelectedmode,State,Xpos,Ypos;//state　メニューの状態
     [SerializeField] ButtonController Lbutton, Rbutton, Cbutton,Backbutton;
-    [SerializeField] Transform UIParent;
+    [SerializeField] Transform UIParent,Buttons;
     [SerializeField] TextMesh numdebug;
 
     // Start is called before the first frame update
@@ -90,6 +90,7 @@ public class UIcontrol : MonoBehaviour
                 {
                     State = 5;
                     MoveUIParent();
+                    GetComponent<Handshape>().Correctreset();
                     GetComponent<Handshape>().Step = UISelectedstep + 1;
                 }
             }
@@ -129,8 +130,9 @@ public class UIcontrol : MonoBehaviour
         }
         else if (State == 5)
         {
-            UIParent.transform.DOMoveX(UISelectedstep * -2.2f, 0.7f);
-            UIParent.transform.DOMoveY(10, 0.7f);
+            UIParent.DOMoveX(UISelectedstep * -2.2f, 0.7f);
+            UIParent.DOMoveY(10, 0.7f);
+            Buttons.DOMoveY(10, 0.7f);
         }
     }
 }

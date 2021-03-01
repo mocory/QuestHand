@@ -16,11 +16,13 @@ public class Handshape : MonoBehaviour
     public Material RMat, LMat, OKMat;
     public bool IsLcorrect, IsRcorrect;
     [SerializeField] ButtonController _buttonController;
+    UIcontrol _uIcontrol;
 
     // Start is called before the first frame update
     void Start()
     {
         handchecker = GetComponent<Handchecker>();
+        _uIcontrol = GetComponent<UIcontrol>();
         CorrecthandR = new int[] { 9, 9, 9, 9, 9, 9, 9, 9, 9 };
         CorrecthandL = new int[] { 9, 9, 9, 9, 9, 9, 9, 9, 9 };
     }
@@ -113,7 +115,10 @@ public class Handshape : MonoBehaviour
         switch (Fase)
         {
             case 0:
-                Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
+                if (_uIcontrol.UISelectedmode == 0)
+                {
+                    Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
+                }
                 CorrecthandR = new int[] { 0, 1, 1, -1, -1, 1, 1, 1, 1 };
                 AllowShapetrack = true;
                 learnmessage.text = "お昼" +
@@ -125,8 +130,11 @@ public class Handshape : MonoBehaviour
                 }
                 break;
             case 1:
-                Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
-                Otehon.transform.GetChild(Fase - 1).gameObject.SetActive(false);
+                if (_uIcontrol.UISelectedmode == 0)
+                {
+                    Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
+                    Otehon.transform.GetChild(Fase - 1).gameObject.SetActive(false);
+                }
                 CorrecthandR = new int[] { 0, 1, -1, -1, -1, 1, 1, 2, 1 };
                 CorrecthandL = new int[] { 0, 1, -1, -1, -1, 1, 1, 0, 1 };
                 AllowShapetrack = true;
@@ -140,8 +148,11 @@ public class Handshape : MonoBehaviour
                 }
                 break;
             case 2:
-                Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
-                Otehon.transform.GetChild(Fase - 1).gameObject.SetActive(false);
+                if (_uIcontrol.UISelectedmode == 0)
+                {
+                    Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
+                    Otehon.transform.GetChild(Fase - 1).gameObject.SetActive(false);
+                }
                 CorrecthandR = new int[] { 0, 0, -1, -1, -1, 1, 1, 2, 1 };
                 CorrecthandL = new int[] { 0, 0, -1, -1, -1, 1, 1, 0, 1 };
                 AllowShapetrack = true;
@@ -159,20 +170,23 @@ public class Handshape : MonoBehaviour
             case 3:
                 for(int i = 0; i < Otehon.transform.childCount; i++)
                 {
-                    Otehon.transform.GetChild(i).gameObject.SetActive(false);
+                    if (_uIcontrol.UISelectedmode == 0)
+                    {
+                        Otehon.transform.GetChild(i).gameObject.SetActive(false);
+                    }
                 }
                 learnmessage.text = "以上で\n" +
                     "「こんにちは」\n" +
                     "を意味します" +
-                    "\n\n終了するには右人差し指をピンチして下さい";
+                    "\n\n終了するには決定ボタンを押して下さい";
 //                    yield return new WaitForSeconds(1);
-                if (HandR.GetFingerIsPinching(OVRHand.HandFinger.Index))
+/*                if (HandR.GetFingerIsPinching(OVRHand.HandFinger.Index))
                 {
                     Otehon.transform.GetChild(Fase).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.color = Color.blue;
                     Otehon.transform.GetChild(Fase).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = Color.red;
                     Fase = 0;
                     Step = 0;
-                }
+                }*/
                 break;
         }
     }
@@ -207,7 +221,7 @@ public class Handshape : MonoBehaviour
             //            AllowShapetrack = false;
         }
     }
-    void Correctreset()
+    public void Correctreset()
     {
         CorrecthandR = new int[] { 9,9,9,9,9,9,9,9,9 };
         CorrecthandL = new int[] { 9,9,9,9,9,9,9,9,9 };
