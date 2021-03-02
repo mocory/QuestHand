@@ -17,6 +17,7 @@ public class Handshape : MonoBehaviour
     public bool IsLcorrect, IsRcorrect;
     [SerializeField] ButtonController _buttonController;
     UIcontrol _uIcontrol;
+    public TextMesh fase;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +34,7 @@ public class Handshape : MonoBehaviour
         Correctcolor();
         CorrectcolorR();
         Fingermatch();
+        fase.text = Fase.ToString();
 //        colorchange();
         switch (Step)
         {
@@ -168,25 +170,33 @@ public class Handshape : MonoBehaviour
                 }
                 break;
             case 3:
-                for(int i = 0; i < Otehon.transform.childCount; i++)
+                /*for(int i = 0; i < Otehon.transform.childCount; i++)
                 {
-                    if (_uIcontrol.UISelectedmode == 0)
-                    {
-                        Otehon.transform.GetChild(i).gameObject.SetActive(false);
-                    }
-                }
-                learnmessage.text = "以上で\n" +
+                               //                       Otehon.transform.GetChild(i).gameObject.SetActive(false);
+     }*/
+                if (_uIcontrol.UISelectedmode == 0)
+                {
+                    Otehon.transform.GetChild(Fase - 1).gameObject.SetActive(false);
+                    learnmessage.text = "以上で\n" +
                     "「こんにちは」\n" +
                     "を意味します" +
                     "\n\n終了するには決定ボタンを押して下さい";
-//                    yield return new WaitForSeconds(1);
-/*                if (HandR.GetFingerIsPinching(OVRHand.HandFinger.Index))
+                }
+                if (_uIcontrol.UISelectedmode == 1)
                 {
-                    Otehon.transform.GetChild(Fase).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.color = Color.blue;
-                    Otehon.transform.GetChild(Fase).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = Color.red;
-                    Fase = 0;
-                    Step = 0;
-                }*/
+                    learnmessage.text = "正解です" +
+                    "\n\n終了するには決定ボタンを押して下さい";
+                }
+                _uIcontrol.State = 6;
+                _uIcontrol.MoveUIParent();
+                //                    yield return new WaitForSeconds(1);
+                /*                if (HandR.GetFingerIsPinching(OVRHand.HandFinger.Index))
+                                {
+                                    Otehon.transform.GetChild(Fase).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.color = Color.blue;
+                                    Otehon.transform.GetChild(Fase).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = Color.red;
+                                    Fase = 0;
+                                    Step = 0;
+                                }*/
                 break;
         }
     }

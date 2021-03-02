@@ -45,7 +45,14 @@ public class UIcontrol : MonoBehaviour
                         MoveUIParent();
                     }
                 }
-
+                if (State == 2)
+                {
+                    if (UISelectedstep > 0)
+                    {
+                        UISelectedstep--;
+                        MoveUIParent();
+                    }
+                }
             }
         };
         Rbutton.ActionZoneEvent += args =>
@@ -61,6 +68,14 @@ public class UIcontrol : MonoBehaviour
                     }
                 }
                 if (State == 1)
+                {
+                    if (UISelectedstep < 1)
+                    {
+                        UISelectedstep++;
+                        MoveUIParent();
+                    }
+                }
+                if (State == 2)
                 {
                     if (UISelectedstep < 1)
                     {
@@ -93,6 +108,18 @@ public class UIcontrol : MonoBehaviour
                     GetComponent<Handshape>().Correctreset();
                     GetComponent<Handshape>().Step = UISelectedstep + 1;
                 }
+                else if (State == 2)
+                {
+                    State = 5;
+                    MoveUIParent();
+                    GetComponent<Handshape>().Correctreset();
+                    GetComponent<Handshape>().Step = UISelectedstep + 1;
+                }
+                else if (State == 6)
+                {
+                    State = 1;
+                    MoveUIParent();
+                }
             }
         };
         Backbutton.ActionZoneEvent += args =>
@@ -108,7 +135,7 @@ public class UIcontrol : MonoBehaviour
         };
     }
 
-    void MoveUIParent()
+    public void MoveUIParent()
     {
         if (State == 0)//モード選択
         {
@@ -126,13 +153,17 @@ public class UIcontrol : MonoBehaviour
         {
             //           UISelectedstep = Xpos;
             UIParent.transform.DOMoveX(UISelectedstep * -2.2f, 0.7f);
-            UIParent.transform.DOMoveY(4, 0.7f);
+            UIParent.transform.DOMoveY(2, 0.7f);
         }
         else if (State == 5)
         {
-            UIParent.DOMoveX(UISelectedstep * -2.2f, 0.7f);
+//            UIParent.DOMoveX(UISelectedstep * -2.2f, 0.7f);
             UIParent.DOMoveY(10, 0.7f);
             Buttons.DOMoveY(10, 0.7f);
+        }
+        else if (State == 6)
+        {
+            Buttons.DOMoveY(0, 0.7f);
         }
     }
 }
