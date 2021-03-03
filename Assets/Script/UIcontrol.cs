@@ -118,6 +118,8 @@ public class UIcontrol : MonoBehaviour
                 else if (State == 6)
                 {
                     State = 1;
+                    GetComponent<Handshape>().Fase = 0;
+                    GetComponent<Handshape>().Step = 0;
                     MoveUIParent();
                 }
             }

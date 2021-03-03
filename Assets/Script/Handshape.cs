@@ -34,7 +34,6 @@ public class Handshape : MonoBehaviour
         Correctcolor();
         CorrectcolorR();
         Fingermatch();
-        fase.text = Fase.ToString();
 //        colorchange();
         switch (Step)
         {
@@ -161,44 +160,39 @@ public class Handshape : MonoBehaviour
                 learnmessage.text = "あいさつ" +
         "\nを意味する手話" +
         "（２）";
+                fase.text = "a";
                 if (IsRcorrect && IsLcorrect)
                 {
                     //                    yield return new WaitForSeconds(2);
                     //                    yield return null;
+                    fase.text = "b";
                     Correctreset();
+                    fase.text = "c";
                     Fase++;
+                    fase.text = "d";
+                    fase.text = Fase.ToString();
+                    Ending();
                 }
-                break;
-            case 3:
-                /*for(int i = 0; i < Otehon.transform.childCount; i++)
-                {
-                               //                       Otehon.transform.GetChild(i).gameObject.SetActive(false);
-     }*/
-                if (_uIcontrol.UISelectedmode == 0)
-                {
-                    Otehon.transform.GetChild(Fase - 1).gameObject.SetActive(false);
-                    learnmessage.text = "以上で\n" +
-                    "「こんにちは」\n" +
-                    "を意味します" +
-                    "\n\n終了するには決定ボタンを押して下さい";
-                }
-                if (_uIcontrol.UISelectedmode == 1)
-                {
-                    learnmessage.text = "正解です" +
-                    "\n\n終了するには決定ボタンを押して下さい";
-                }
-                _uIcontrol.State = 6;
-                _uIcontrol.MoveUIParent();
-                //                    yield return new WaitForSeconds(1);
-                /*                if (HandR.GetFingerIsPinching(OVRHand.HandFinger.Index))
-                                {
-                                    Otehon.transform.GetChild(Fase).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.color = Color.blue;
-                                    Otehon.transform.GetChild(Fase).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = Color.red;
-                                    Fase = 0;
-                                    Step = 0;
-                                }*/
                 break;
         }
+    }
+    void Ending()
+    {
+        if (_uIcontrol.UISelectedmode == 0)
+        {
+            Otehon.transform.GetChild(Fase - 1).gameObject.SetActive(false);
+            learnmessage.text = "以上で\n" +
+            "「こんにちは」\n" +
+            "を意味します" +
+            "\n\n終了するには決定ボタンを押して下さい";
+        }
+        if (_uIcontrol.UISelectedmode == 1)
+        {
+            learnmessage.text = "正解です" +
+            "\n\n終了するには決定ボタンを押して下さい";
+        }
+        _uIcontrol.State = 6;
+        _uIcontrol.MoveUIParent();
     }
     void Fingermatch()
     {
