@@ -10,7 +10,7 @@ public class Handshape : MonoBehaviour
     public int Step, Fase;
     public OVRHand HandL, HandR;
     public Text learnmessage;
-    public int[] CorrecthandL,CorrecthandR;
+    public int[] CorrecthandL,CorrecthandR,CheckhandL,CheckhandR;
     public bool AllowShapetrack;
     public GameObject Otehon;
     public Material RMat, LMat, OKMat;
@@ -26,6 +26,8 @@ public class Handshape : MonoBehaviour
         _uIcontrol = GetComponent<UIcontrol>();
         CorrecthandR = new int[] { 9, 9, 9, 9, 9, 9, 9, 9, 9 };
         CorrecthandL = new int[] { 9, 9, 9, 9, 9, 9, 9, 9, 9 };
+        CheckhandR = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        CheckhandL = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     }
 
     // Update is called once per frame
@@ -34,6 +36,7 @@ public class Handshape : MonoBehaviour
         Correctcolor();
         CorrectcolorR();
         Fingermatch();
+        Handscore();
 //        colorchange();
         switch (Step)
         {
@@ -207,7 +210,7 @@ public class Handshape : MonoBehaviour
                 }
                 else
                 {
-                    IsLcorrect = true;//この辺がおかしい
+                    IsLcorrect = true;
                 }
             }
             for (int i = 0; i < handchecker.HandinfoR.Length; i++)
@@ -219,13 +222,41 @@ public class Handshape : MonoBehaviour
                 }
                 else
                 {
-                    IsRcorrect = true;//この辺がおかしい
+                    IsRcorrect = true;
                 }
             }
             //            AllowShapetrack = false;
         }
     }
-    public void Correctreset()
+    void Handscore()
+    {
+        {
+            for (int i = 0; i < handchecker.HandinfoL.Length; i++)
+            {
+                if (handchecker.HandinfoL[i] != CorrecthandL[i]) //L側
+                {
+                    CheckhandL[i] = 0;
+                }
+                else
+                {
+                    CheckhandL[i] = 1;
+                }
+            }
+            for (int i = 0; i < handchecker.HandinfoR.Length; i++)
+            {
+                if (handchecker.HandinfoR[i] != CorrecthandR[i]) //R側
+                {
+                    CheckhandR[i] = 0;
+                }
+                else
+                {
+                    CheckhandR[i] = 1;
+                }
+            }
+        }
+    }
+
+        public void Correctreset()
     {
         CorrecthandR = new int[] { 9,9,9,9,9,9,9,9,9 };
         CorrecthandL = new int[] { 9,9,9,9,9,9,9,9,9 };
