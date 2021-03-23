@@ -7,7 +7,7 @@ using OculusSampleFramework;
 public class Handshape : MonoBehaviour
 {
     Handchecker handchecker;
-    public int Step, Fase;
+    public int Step, Fase, Score, ScoreL, ScoreR;
     public OVRHand HandL, HandR;
     public Text learnmessage;
     public int[] CorrecthandL,CorrecthandR,CheckhandL,CheckhandR;
@@ -37,6 +37,7 @@ public class Handshape : MonoBehaviour
         CorrectcolorR();
         Fingermatch();
         Handscore();
+        Scoremaking();
 //        colorchange();
         switch (Step)
         {
@@ -233,6 +234,7 @@ public class Handshape : MonoBehaviour
         {
             for (int i = 0; i < handchecker.HandinfoL.Length; i++)
             {
+                int score = 0;
                 if (handchecker.HandinfoL[i] != CorrecthandL[i]) //L側
                 {
                     CheckhandL[i] = 0;
@@ -240,10 +242,20 @@ public class Handshape : MonoBehaviour
                 else
                 {
                     CheckhandL[i] = 1;
+                    if (i == 0|| i==8)
+                    {
+                        score += 4;
+                    }
+                    else
+                    {
+                        score += 6;
+                    }
                 }
+                ScoreL = score;
             }
             for (int i = 0; i < handchecker.HandinfoR.Length; i++)
             {
+                int score = 0;
                 if (handchecker.HandinfoR[i] != CorrecthandR[i]) //R側
                 {
                     CheckhandR[i] = 0;
@@ -251,11 +263,24 @@ public class Handshape : MonoBehaviour
                 else
                 {
                     CheckhandR[i] = 1;
+                    if (i == 0 || i == 8)
+                    {
+                        score += 4;
+                    }
+                    else
+                    {
+                        score += 6;
+                    }
                 }
+                ScoreR = score;
             }
         }
     }
 
+    void Scoremaking()
+    {
+        Score = ScoreL + ScoreR;
+    }
         public void Correctreset()
     {
         CorrecthandR = new int[] { 9,9,9,9,9,9,9,9,9 };
