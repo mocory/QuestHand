@@ -164,17 +164,12 @@ public class Handshape : MonoBehaviour
                 learnmessage.text = "あいさつ" +
         "\nを意味する手話" +
         "（２）";
-                fase.text = "a";
                 if (IsRcorrect && IsLcorrect)
                 {
                     //                    yield return new WaitForSeconds(2);
                     //                    yield return null;
-                    fase.text = "b";
                     Correctreset();
-                    fase.text = "c";
                     Fase++;
-                    fase.text = "d";
-                    fase.text = Fase.ToString();
                     Ending();
                 }
                 break;
@@ -231,8 +226,7 @@ public class Handshape : MonoBehaviour
     }
     void Handscore()
     {
-        {
-            for (int i = 0; i < handchecker.HandinfoL.Length; i++)
+            for (int i = 0; i < handchecker.HandinfoL.Length; i++)//要チェック
             {
                 int score = 0;
                 if (handchecker.HandinfoL[i] != CorrecthandL[i]) //L側
@@ -274,14 +268,14 @@ public class Handshape : MonoBehaviour
                 }
                 ScoreR = score;
             }
-        }
     }
 
     void Scoremaking()
     {
         Score = ScoreL + ScoreR;
+        fase.text = ScoreL.ToString() + Score.ToString() + ScoreR.ToString();
     }
-        public void Correctreset()
+    public void Correctreset()
     {
         CorrecthandR = new int[] { 9,9,9,9,9,9,9,9,9 };
         CorrecthandL = new int[] { 9,9,9,9,9,9,9,9,9 };
