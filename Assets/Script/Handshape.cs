@@ -226,9 +226,10 @@ public class Handshape : MonoBehaviour
     }
     void Handscore()
     {
+        int scorel = 0;
+        int scorer = 0;
             for (int i = 0; i < handchecker.HandinfoL.Length; i++)//要チェック
             {
-                int score = 0;
                 if (handchecker.HandinfoL[i] != CorrecthandL[i]) //L側
                 {
                     CheckhandL[i] = 0;
@@ -238,18 +239,16 @@ public class Handshape : MonoBehaviour
                     CheckhandL[i] = 1;
                     if (i == 0|| i==8)
                     {
-                        score += 4;
+                        scorel += 4;
                     }
                     else
                     {
-                        score += 6;
+                    scorel += 6;
                     }
                 }
-                ScoreL = score;
             }
             for (int i = 0; i < handchecker.HandinfoR.Length; i++)
             {
-                int score = 0;
                 if (handchecker.HandinfoR[i] != CorrecthandR[i]) //R側
                 {
                     CheckhandR[i] = 0;
@@ -259,15 +258,16 @@ public class Handshape : MonoBehaviour
                     CheckhandR[i] = 1;
                     if (i == 0 || i == 8)
                     {
-                        score += 4;
+                    scorer += 4;
                     }
                     else
                     {
-                        score += 6;
+                    scorer += 6;
                     }
                 }
-                ScoreR = score;
             }
+        ScoreL = scorel;
+        ScoreR = scorer;
     }
 
     void Scoremaking()
