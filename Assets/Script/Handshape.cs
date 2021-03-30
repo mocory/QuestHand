@@ -7,7 +7,7 @@ using OculusSampleFramework;
 public class Handshape : MonoBehaviour
 {
     Handchecker handchecker;
-    public int Step, Fase, Score, ScoreL, ScoreR;
+    public int Step, Fase, Score, ScoreL, ScoreR,ScoreaveL,ScoreaveR,Scoreave;
     public OVRHand HandL, HandR;
     public Text learnmessage;
     public int[] CorrecthandL,CorrecthandR,CheckhandL,CheckhandR;
@@ -270,6 +270,10 @@ public class Handshape : MonoBehaviour
         ScoreR = scorer;
     }
 
+    IEnumerator Averagescore()
+    {
+        yield return null;
+    }
     void Scoremaking()
     {
         Score = ScoreL + ScoreR;
