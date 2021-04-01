@@ -272,6 +272,7 @@ public class Handshape : MonoBehaviour
 
     IEnumerator Averagescore()
     {
+
         yield return null;
     }
     void Scoremaking()
