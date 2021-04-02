@@ -7,7 +7,8 @@ using OculusSampleFramework;
 public class Handshape : MonoBehaviour
 {
     Handchecker handchecker;
-    public int Step, Fase, Score, ScoreL, ScoreR,ScoreaveL,ScoreaveR,Scoreave;
+    public int Step, Fase, Score, ScoreL, ScoreR;
+    public float  Averagerate, ScoreaveL, ScoreaveR, Scoreave;
     public OVRHand HandL, HandR;
     public Text learnmessage;
     public int[] CorrecthandL,CorrecthandR,CheckhandL,CheckhandR;
@@ -28,6 +29,7 @@ public class Handshape : MonoBehaviour
         CorrecthandL = new int[] { 9, 9, 9, 9, 9, 9, 9, 9, 9 };
         CheckhandR = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         CheckhandL = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        Averagerate = 0.1f;
     }
 
     // Update is called once per frame
@@ -272,7 +274,11 @@ public class Handshape : MonoBehaviour
 
     IEnumerator Averagescore()
     {
+        ScoreaveL *= 1f - Averagerate;
+        ScoreaveR *= 1f - Averagerate;
 
+        ScoreaveL += ScoreL * Averagerate;
+        ScoreaveR += ScoreR * Averagerate;
         yield return null;
     }
     void Scoremaking()
