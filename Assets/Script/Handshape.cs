@@ -29,7 +29,7 @@ public class Handshape : MonoBehaviour
         CorrecthandL = new int[] { 9, 9, 9, 9, 9, 9, 9, 9, 9 };
         CheckhandR = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         CheckhandL = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        Averagerate = 0.1f;
+        Averagerate = 0.02f;//平均の近似割合0.025だと少し早い2秒程度、0.0125だと少し遅い4秒程度
     }
 
     // Update is called once per frame
@@ -40,6 +40,7 @@ public class Handshape : MonoBehaviour
         Fingermatch();
         Handscore();
         Scoremaking();
+        Averagescore();
 //        colorchange();
         switch (Step)
         {
@@ -272,19 +273,19 @@ public class Handshape : MonoBehaviour
         ScoreR = scorer;
     }
 
-    IEnumerator Averagescore()
+    void Averagescore()
     {
         ScoreaveL *= 1f - Averagerate;
         ScoreaveR *= 1f - Averagerate;
 
         ScoreaveL += ScoreL * Averagerate;
         ScoreaveR += ScoreR * Averagerate;
-        yield return null;
+//        yield return null;
     }
     void Scoremaking()
     {
-        Score = ScoreL + ScoreR;
-        fase.text = ScoreL.ToString() + Score.ToString() + ScoreR.ToString();
+        Score = (int)ScoreaveL + (int)ScoreaveR;
+        fase.text = ScoreaveL.ToString("F0") + " " + Score.ToString("F0") + " " + ScoreaveR.ToString("F0");
     }
     public void Correctreset()
     {
