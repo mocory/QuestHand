@@ -8,6 +8,7 @@ public class Handshape : MonoBehaviour
 {
     Handchecker handchecker;
     public int Step, Fase, Score, ScoreL, ScoreR;
+    public int[] Scores;
     public float  Averagerate, ScoreaveL, ScoreaveR, Scoreave;
     public OVRHand HandL, HandR;
     public Text learnmessage;
@@ -133,6 +134,7 @@ public class Handshape : MonoBehaviour
          "\nを意味する手話";
                 if (IsRcorrect)
                 {
+                    Putscore(Score);
                     Correctreset();
                     Fase++;
                 }
@@ -151,6 +153,7 @@ public class Handshape : MonoBehaviour
             "（１）";
                 if (IsRcorrect && IsLcorrect)
                 {
+                    Putscore(Score);
                     Correctreset();
                     Fase++;
                 }
@@ -171,6 +174,7 @@ public class Handshape : MonoBehaviour
                 {
                     //                    yield return new WaitForSeconds(2);
                     //                    yield return null;
+                    Putscore(Score);
                     Correctreset();
                     Fase++;
                     Ending();
@@ -273,6 +277,10 @@ public class Handshape : MonoBehaviour
         ScoreR = scorer;
     }
 
+    void Putscore(int inputscore)
+    {
+        Scores[Fase] = inputscore;
+    }
     void Averagescore()
     {
         ScoreaveL *= 1f - Averagerate;
@@ -285,7 +293,7 @@ public class Handshape : MonoBehaviour
     void Scoremaking()
     {
         Score = (int)ScoreaveL + (int)ScoreaveR;
-        fase.text = ScoreaveL.ToString("F0") + " " + Score.ToString("F0") + " " + ScoreaveR.ToString("F0");
+        fase.text = ScoreaveL.ToString("F0") + "点 " + Score.ToString("F0") + "点 " + ScoreaveR.ToString("F0") + "点";
     }
     public void Correctreset()
     {
