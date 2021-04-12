@@ -19,7 +19,9 @@ public class Handshape : MonoBehaviour
     public bool IsLcorrect, IsRcorrect;
     [SerializeField] ButtonController _buttonController;
     UIcontrol _uIcontrol;
-    public TextMesh fase;
+    public TextMesh fase,Lscore,Rscore,Totalscore;
+    public GameObject ScoreUI;
+    bool IsLUsing, IsRUsing;
 
     // Start is called before the first frame update
     void Start()
@@ -107,20 +109,21 @@ public class Handshape : MonoBehaviour
                 {
                     Step = 3;
                 }*/
-/*        _buttonController.ActionZoneEvent += args =>
-        {
-            if (args.InteractionT == InteractionType.Enter)
-            {
-                Pressbutton();
-            }
-        };*/
-
+        /*        _buttonController.ActionZoneEvent += args =>
+                {
+                    if (args.InteractionT == InteractionType.Enter)
+                    {
+                        Pressbutton();
+                    }
+                };*/
+        ScoreUI.SetActive(false);
             learnmessage.text = "学習モード待機中" +
                 "\n\n決定ボタンを押して下さい";
     }
 
     void Hello()
     {
+        ScoreUI.SetActive(true);
         switch (Fase)
         {
             case 0:
@@ -128,6 +131,8 @@ public class Handshape : MonoBehaviour
                 {
                     Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
                 }
+                IsRUsing = true;
+                IsLUsing = false;
                 CorrecthandR = new int[] { 0, 1, 1, -1, -1, 1, 1, 1, 1 };
                 AllowShapetrack = true;
                 learnmessage.text = "お昼" +
@@ -145,6 +150,8 @@ public class Handshape : MonoBehaviour
                     Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
                     Otehon.transform.GetChild(Fase - 1).gameObject.SetActive(false);
                 }
+                IsRUsing = true;
+                IsLUsing = true;
                 CorrecthandR = new int[] { 0, 1, -1, -1, -1, 1, 1, 2, 1 };
                 CorrecthandL = new int[] { 0, 1, -1, -1, -1, 1, 1, 0, 1 };
                 AllowShapetrack = true;
@@ -164,6 +171,8 @@ public class Handshape : MonoBehaviour
                     Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
                     Otehon.transform.GetChild(Fase - 1).gameObject.SetActive(false);
                 }
+                IsRUsing = true;
+                IsLUsing = true;
                 CorrecthandR = new int[] { 0, 0, -1, -1, -1, 1, 1, 2, 1 };
                 CorrecthandL = new int[] { 0, 0, -1, -1, -1, 1, 1, 0, 1 };
                 AllowShapetrack = true;
@@ -273,8 +282,21 @@ public class Handshape : MonoBehaviour
                     }
                 }
             }
-        ScoreL = scorel;
-        ScoreR = scorer;
+        if (IsLUsing && IsRUsing)
+        {
+            ScoreL = scorel;
+            ScoreR = scorer;
+        }
+        else if (IsLUsing && !IsRUsing)
+        {
+            ScoreL = scorel*2;
+            ScoreR = scorer;
+        }
+        else if (!IsLUsing && IsRUsing)
+        {
+            ScoreL = scorel;
+            ScoreR = scorer*2;
+        }
     }
 
     void Putscore(int inputscore)
@@ -293,7 +315,25 @@ public class Handshape : MonoBehaviour
     void Scoremaking()
     {
         Score = (int)ScoreaveL + (int)ScoreaveR;
-        fase.text = ScoreaveL.ToString("F0") + "点 " + Score.ToString("F0") + "点 " + ScoreaveR.ToString("F0") + "点";
+        if (IsLUsing && IsRUsing)
+        {
+            Lscore.text = ScoreaveL.ToString("F0") + "点 ";
+            Rscore.text = ScoreaveR.ToString("F0") + "点";
+            Totalscore.text = Score.ToString("F0") + "点 ";
+        }
+        else if (IsLUsing && !IsRUsing)
+        {
+            Lscore.text = ScoreaveL.ToString("F0") + "点 ";
+            Rscore.text = "N/A" + "点 ";
+            Totalscore.text = Score.ToString("F0") + "点 ";
+        }
+        else if (!IsLUsing && IsRUsing)
+        {
+            Lscore.text = "N/A" + "点 ";
+            Rscore.text = ScoreaveR.ToString("F0") + "点";
+            Totalscore.text = Score.ToString("F0") + "点 ";
+        }
+        //        fase.text = ScoreaveL.ToString("F0") + "点 " + Score.ToString("F0") + "点 " + ScoreaveR.ToString("F0") + "点";
     }
     public void Correctreset()
     {
