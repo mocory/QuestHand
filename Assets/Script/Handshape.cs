@@ -116,17 +116,16 @@ public class Handshape : MonoBehaviour
                         Pressbutton();
                     }
                 };*/
-        ScoreUI.SetActive(false);
             learnmessage.text = "学習モード待機中" +
                 "\n\n決定ボタンを押して下さい";
     }
 
     void Hello()
     {
-        ScoreUI.SetActive(true);
         switch (Fase)
         {
             case 0:
+                ScoreUI.SetActive(true);
                 if (_uIcontrol.UISelectedmode == 0)
                 {
                     Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
@@ -181,6 +180,7 @@ public class Handshape : MonoBehaviour
         "（２）";
                 if (IsRcorrect && IsLcorrect)
                 {
+                    ScoreUI.SetActive(false);
                     //                    yield return new WaitForSeconds(2);
                     //                    yield return null;
                     Putscore(Score);
