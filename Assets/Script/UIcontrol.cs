@@ -128,9 +128,18 @@ public class UIcontrol : MonoBehaviour
         {
             if (args.InteractionT == InteractionType.Enter)
             {
-                if (State == 1)//ここの値は逐次変更する
+//                if (State == 1)//ここの値は逐次変更する
                 {
                     State = 0;
+                    GetComponent<Handshape>().ScoreUI.SetActive(false);
+                    GetComponent<Handshape>().Fase = 0;
+                    GetComponent<Handshape>().Step = 0;
+                    Buttons.DOMoveY(0, 0.7f);
+                    GameObject Otehon = GameObject.Find("Otehon");
+                    int otehonnum = Otehon.transform.childCount;
+                    for (int i=0 ; i < otehonnum; i++){
+                        Otehon.transform.GetChild(i).gameObject.SetActive(false);
+                    }
                     MoveUIParent();
                 }
             }
