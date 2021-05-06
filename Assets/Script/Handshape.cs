@@ -22,6 +22,7 @@ public class Handshape : MonoBehaviour
     public TextMesh fase,Lscore,Rscore,Totalscore;
     public GameObject ScoreUI;
     bool IsLUsing, IsRUsing;
+    public int[] LReview, RReview;//どこが間違ってたかを記録する 
 
     // Start is called before the first frame update
     void Start()
@@ -335,6 +336,7 @@ public class Handshape : MonoBehaviour
         }
         //        fase.text = ScoreaveL.ToString("F0") + "点 " + Score.ToString("F0") + "点 " + ScoreaveR.ToString("F0") + "点";
     }
+
     public void Correctreset()
     {
         CorrecthandR = new int[] { 9,9,9,9,9,9,9,9,9 };
