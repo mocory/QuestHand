@@ -22,7 +22,7 @@ public class Handshape : MonoBehaviour
     public TextMesh fase,Lscore,Rscore,Totalscore;
     public GameObject ScoreUI;
     bool IsLUsing, IsRUsing;
-    public int[] LReview, RReview;//どこが間違ってたかを記録する 
+    public int[,] LReview, RReview;//どこが間違ってたかを記録する 
 
     // Start is called before the first frame update
     void Start()
@@ -121,11 +121,17 @@ public class Handshape : MonoBehaviour
                 "\n\n決定ボタンを押して下さい";
     }
 
+    public void Setarray(int fases)
+    {
+        LReview = new int[fases, 9];
+        RReview = new int[fases, 9];
+    }
     void Hello()
     {
         switch (Fase)
         {
             case 0:
+
                 ScoreUI.SetActive(true);
                 if (_uIcontrol.UISelectedmode == 0)
                 {
