@@ -85,37 +85,37 @@ public class UIcontrol : MonoBehaviour
                 }
             }
         };
-        Cbutton.ActionZoneEvent += args =>
+        Cbutton.ActionZoneEvent += args =>//決定ボタン押下
         {
             if (args.InteractionT == InteractionType.Enter)
             {
-                if (State == 0)
+                if (State == 0)//モード選択
                 {
-                    if (UISelectedmode == 0)
+                    if (UISelectedmode == 0)//学習モード選択時
                     {
                         State = 1;
                     }
-                    else if (UISelectedmode == 1)
+                    else if (UISelectedmode == 1)//テストモード選択時
                     {
                         State = 2;
                     }
                     MoveUIParent();
                 }
-                else if (State == 1)
+                else if (State == 1)//学習モードステップ選択時
                 {
                     State = 5;
                     MoveUIParent();
                     GetComponent<Handshape>().Correctreset();
                     GetComponent<Handshape>().Step = UISelectedstep + 1;
                 }
-                else if (State == 2)
+                else if (State == 2)//テストモードステップ選択時
                 {
                     State = 5;
                     MoveUIParent();
                     GetComponent<Handshape>().Correctreset();
                     GetComponent<Handshape>().Step = UISelectedstep + 1;
                 }
-                else if (State == 6)
+                else if (State == 6)//学習完了時
                 {
                     State = 1;
                     GetComponent<Handshape>().Fase = 0;
@@ -124,7 +124,7 @@ public class UIcontrol : MonoBehaviour
                 }
             }
         };
-        Backbutton.ActionZoneEvent += args =>
+        Backbutton.ActionZoneEvent += args =>//戻るボタン押下時
         {
             if (args.InteractionT == InteractionType.Enter)
             {

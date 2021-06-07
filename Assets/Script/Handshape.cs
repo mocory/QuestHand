@@ -73,22 +73,22 @@ public class Handshape : MonoBehaviour
     {
         if (IsLcorrect)
         {
-            Otehon.transform.GetChild(Fase).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.color = new Color(0, 1, 0);
+            Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.color = new Color(0, 1, 0);
         }
         else
         {
-            Otehon.transform.GetChild(Fase).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.color = Color.blue;
+            Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.color = Color.blue;
         }
     }
     void CorrectcolorR()
     {
         if (IsRcorrect)
         {
-            Otehon.transform.GetChild(Fase).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = new Color(0, 1, 0);
+            Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = new Color(0, 1, 0);
         }
         else
         {
-            Otehon.transform.GetChild(Fase).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = Color.red;
+            Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.color = Color.red;
         }
     }
 
@@ -135,7 +135,7 @@ public class Handshape : MonoBehaviour
                 ScoreUI.SetActive(true);
                 if (_uIcontrol.UISelectedmode == 0)
                 {
-                    Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
+                    Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase).gameObject.SetActive(true);
                 }
                 IsRUsing = true;
                 IsLUsing = false;
@@ -153,8 +153,8 @@ public class Handshape : MonoBehaviour
             case 1:
                 if (_uIcontrol.UISelectedmode == 0)
                 {
-                    Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
-                    Otehon.transform.GetChild(Fase - 1).gameObject.SetActive(false);
+                    Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase).gameObject.SetActive(true);
+                    Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase - 1).gameObject.SetActive(false);
                 }
                 IsRUsing = true;
                 IsLUsing = true;
@@ -174,8 +174,8 @@ public class Handshape : MonoBehaviour
             case 2:
                 if (_uIcontrol.UISelectedmode == 0)
                 {
-                    Otehon.transform.GetChild(Fase).gameObject.SetActive(true);
-                    Otehon.transform.GetChild(Fase - 1).gameObject.SetActive(false);
+                    Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase).gameObject.SetActive(true);
+                    Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase - 1).gameObject.SetActive(false);
                 }
                 IsRUsing = true;
                 IsLUsing = true;
@@ -202,7 +202,7 @@ public class Handshape : MonoBehaviour
     {
         if (_uIcontrol.UISelectedmode == 0)
         {
-            Otehon.transform.GetChild(Fase - 1).gameObject.SetActive(false);
+            Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase - 1).gameObject.SetActive(false);
             learnmessage.text = "以上で\n" +
             "「こんにちは」\n" +
             "を意味します" +
