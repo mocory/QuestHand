@@ -54,6 +54,9 @@ public class Handshape : MonoBehaviour
             case 1:
                 Hello();
                 break;
+            case 2:
+                Nicetomeetyou();
+                break;
         }
     }
     void colorchange()
@@ -92,10 +95,6 @@ public class Handshape : MonoBehaviour
         }
     }
 
-    public void Pressbutton()
-    {
-        Step = 1;
-    }
     void Learnstart()
     {
         /*        if (HandL.GetFingerIsPinching(OVRHand.HandFinger.Index))
@@ -198,14 +197,104 @@ public class Handshape : MonoBehaviour
                 break;
         }
     }
+
+    void Nicetomeetyou()
+    {
+        switch (Fase)
+        {
+            case 0:
+
+                ScoreUI.SetActive(true);
+                if (_uIcontrol.UISelectedmode == 0)
+                {
+                    Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase).gameObject.SetActive(true);
+                }
+                IsRUsing = true;
+                IsLUsing = false;
+                CorrecthandR = new int[] { 1, 1, 1, 1, 1, 1, 0, 1, 1 };
+                AllowShapetrack = true;
+                learnmessage.text = "初めて" +
+         "\nを意味する手話"+"(1)";
+                if (IsRcorrect)
+                {
+                    Putscore(Score);
+                    Correctreset();
+                    Fase++;
+                }
+                break;
+            case 1:
+                if (_uIcontrol.UISelectedmode == 0)
+                {
+                    Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase).gameObject.SetActive(true);
+                    Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase - 1).gameObject.SetActive(false);
+                }
+                IsRUsing = true;
+                IsLUsing = false;
+                CorrecthandR = new int[] { 1, 1, -1, -1, -1, 1, 1, 1, 1 };
+                AllowShapetrack = true;
+                learnmessage.text = "初めて" +
+         "\nを意味する手話" + "(2)";
+                if (IsRcorrect)
+                {
+                    Putscore(Score);
+                    Correctreset();
+                    Fase++;
+                }
+                break;
+            case 2:
+                if (_uIcontrol.UISelectedmode == 0)
+                {
+                    Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase).gameObject.SetActive(true);
+                    Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase - 1).gameObject.SetActive(false);
+                }
+                IsRUsing = true;
+                IsLUsing = true;
+                CorrecthandR = new int[] { 0, 1, -1, -1, -1, 1, 1, 2, 1 };
+                CorrecthandL = new int[] { 0, 1, -1, -1, -1, 1, 1, 0, 1 };
+                AllowShapetrack = true;
+                learnmessage.text = "会う" +
+         "\nを意味する手話" + "(1)";
+                if (IsRcorrect && IsLcorrect)
+                {
+                    Putscore(Score);
+                    Correctreset();
+                    Fase++;
+                }
+                break;
+            case 3:
+                if (_uIcontrol.UISelectedmode == 0)
+                {
+                    Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase).gameObject.SetActive(true);
+                    Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase - 1).gameObject.SetActive(false);
+                }
+                IsRUsing = true;
+                IsLUsing = true;
+                CorrecthandR = new int[] { 0, 1, -1, -1, -1, 1, 1, 1, 1 };
+                CorrecthandL = new int[] { 0, 1, -1, -1, -1, 1, 1, 1, 1 };
+                AllowShapetrack = true;
+                learnmessage.text = "会う" +
+         "\nを意味する手話" + "(2)";
+                if (IsRcorrect && IsLcorrect)
+                {
+                    ScoreUI.SetActive(false);
+                    //                    yield return new WaitForSeconds(2);
+                    //                    yield return null;
+                    Putscore(Score);
+                    Correctreset();
+                    Fase++;
+                    Ending();
+                }
+                break;
+        }
+    }
+
+
     void Ending()
     {
         if (_uIcontrol.UISelectedmode == 0)
         {
             Otehon.transform.GetChild(GetComponent<UIcontrol>().UISelectedstep).GetChild(Fase - 1).gameObject.SetActive(false);
-            learnmessage.text = "以上で\n" +
-            "「こんにちは」\n" +
-            "を意味します" +
+            learnmessage.text = "以上です"+
             "\n\n終了するには決定ボタンを押して下さい";
         }
         if (_uIcontrol.UISelectedmode == 1)

@@ -3305,7 +3305,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!102 &1678583841
 TextMesh:
   serializedVersion: 3
@@ -3799,7 +3799,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1849399577}
-  m_Text: "\u3055\u3088\u3046\u306A\u3089"
+  m_Text: "\u306F\u3058\u3081\u307E\u3057\u3066"
   m_OffsetZ: 0
   m_CharacterSize: 0.02
   m_LineSpacing: 1
