@@ -176,6 +176,16 @@ public static class OVRExtensions
 		return new OVRPlugin.Vector3f() { x = v.x, y = v.y, z = -v.z };
 	}
 
+	public static Vector4 FromVector4f(this OVRPlugin.Vector4f v)
+	{
+		return new Vector4() { x = v.x, y = v.y, z = v.z, w = v.w };
+	}
+
+	public static OVRPlugin.Vector4f ToVector4f(this Vector4 v)
+	{
+		return new OVRPlugin.Vector4f() { x = v.x, y = v.y, z = v.z, w = v.w };
+	}
+
 	public static Quaternion FromQuatf(this OVRPlugin.Quatf q)
 	{
 		return new Quaternion() { x = q.x, y = q.y, z = q.z, w = q.w };
@@ -240,6 +250,50 @@ public static class OVRExtensions
 				return result;
 		}
 		return null;
+	}
+
+	public static bool Equals(this Gradient gradient, Gradient otherGradient)
+	{
+		if (gradient.colorKeys.Length != otherGradient.colorKeys.Length || gradient.alphaKeys.Length != otherGradient.alphaKeys.Length)
+			return false;
+
+		for (int i = 0; i < gradient.colorKeys.Length; i++)
+		{
+			GradientColorKey key = gradient.colorKeys[i];
+			GradientColorKey otherKey = otherGradient.colorKeys[i];
+			if (key.color != otherKey.color || key.time != otherKey.time)
+				return false;
+		}
+
+		for (int i = 0; i < gradient.alphaKeys.Length; i++)
+		{
+			GradientAlphaKey key = gradient.alphaKeys[i];
+			GradientAlphaKey otherKey = otherGradient.alphaKeys[i];
+			if (key.alpha != otherKey.alpha || key.time != otherKey.time)
+				return false;
+		}
+
+		return true;
+	}
+
+	public static void CopyFrom(this Gradient gradient, Gradient otherGradient)
+	{
+		GradientColorKey[] colorKeys = new GradientColorKey[otherGradient.colorKeys.Length];
+		for (int i = 0; i < colorKeys.Length; i++)
+		{
+			Color col = otherGradient.colorKeys[i].color;
+			colorKeys[i].color = new Color(col.r, col.g, col.b, col.a);
+			colorKeys[i].time = otherGradient.colorKeys[i].time;
+		}
+		
+		GradientAlphaKey[] alphaKeys = new GradientAlphaKey[otherGradient.alphaKeys.Length];
+		for (int i = 0; i < alphaKeys.Length; i++)
+		{
+			alphaKeys[i].alpha = otherGradient.alphaKeys[i].alpha;
+			alphaKeys[i].time = otherGradient.alphaKeys[i].time;
+		}
+
+		gradient.SetKeys(colorKeys, alphaKeys);
 	}
 }
 

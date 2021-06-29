@@ -44,8 +44,20 @@ using System.Threading;
 /// <summary>
 /// Allows Oculus to build apps from the command line.
 /// </summary>
+[InitializeOnLoadAttribute]
 partial class OculusBuildApp : EditorWindow
 {
+    static OculusBuildApp()
+    {
+        EditorApplication.playModeStateChanged += PlayModeStateChanged;
+    }
+
+    private static void PlayModeStateChanged(PlayModeStateChange state)
+    {
+        if (state == PlayModeStateChange.ExitingEditMode)
+            OVRPlugin.SetDeveloperMode(OVRPlugin.Bool.False);
+    }
+
     static void SetPCTarget()
     {
         if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.StandaloneWindows)
@@ -54,7 +66,9 @@ partial class OculusBuildApp : EditorWindow
         }
 #if !USING_XR_SDK && !REQUIRES_XR_SDK
         UnityEditorInternal.VR.VREditor.SetVREnabledOnTargetGroup(BuildTargetGroup.Standalone, true);
+#pragma warning disable 618
         PlayerSettings.virtualRealitySupported = true;
+#pragma warning restore 618
 #endif
         AssetDatabase.SaveAssets();
     }
@@ -71,7 +85,9 @@ partial class OculusBuildApp : EditorWindow
 
 #if !USING_XR_SDK && !REQUIRES_XR_SDK
         UnityEditorInternal.VR.VREditor.SetVREnabledOnTargetGroup(BuildTargetGroup.Standalone, true);
+#pragma warning disable 618
         PlayerSettings.virtualRealitySupported = true;
+#pragma warning restore 618
 #endif
         AssetDatabase.SaveAssets();
     }
@@ -637,7 +653,7 @@ partial class OculusBuildApp : EditorWindow
         {
             UnityEngine.Debug.LogError("Could not find the ADB executable in the specified Android SDK directory.");
         }
-        return false;
+		return false;
     }
 
     private static bool CheckADBDevices()

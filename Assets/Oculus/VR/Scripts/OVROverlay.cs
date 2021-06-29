@@ -14,6 +14,8 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
+
 
 /// <summary>
 /// Add OVROverlay script to an object with an optional mesh primitive
@@ -56,6 +58,7 @@ public class OVROverlay : MonoBehaviour
 		Cubemap = OVRPlugin.OverlayShape.Cubemap,
 		OffcenterCubemap = OVRPlugin.OverlayShape.OffcenterCubemap,
 		Equirect = OVRPlugin.OverlayShape.Equirect,
+		Fisheye = OVRPlugin.OverlayShape.Fisheye,
 	}
 
 	/// <summary>
@@ -111,6 +114,7 @@ public class OVROverlay : MonoBehaviour
 	//Property that can hide overlays when required. Should be false when present, true when hidden.
 	public bool hidden = false;
 
+
 	/// <summary>
 	/// If true, the layer will be created as an external surface. externalSurfaceObject contains the Surface object. It's effective only on Android.
 	/// </summary>
@@ -134,6 +138,7 @@ public class OVROverlay : MonoBehaviour
 	/// </summary>
 	[Tooltip("The compositionDepth defines the order of the OVROverlays in composition. The overlay/underlay with smaller compositionDepth would be composited in the front of the overlay/underlay with larger compositionDepth.")]
 	public int compositionDepth = 0;
+	private int layerCompositionDepth = 0;
 
 	/// <summary>
 	/// The noDepthBufferTesting will stop layer's depth buffer compositing even if the engine has "Depth buffer sharing" enabled on Rift.
@@ -291,7 +296,8 @@ public class OVROverlay : MonoBehaviour
 			layerDesc.Layout != layout ||
 			layerDesc.LayerFlags != flags ||
 			!layerDesc.TextureSize.Equals(size) ||
-			layerDesc.Shape != shape);
+			layerDesc.Shape != shape ||
+			layerCompositionDepth != compositionDepth);
 
 		if (!needsSetup)
 			return false;
@@ -303,6 +309,7 @@ public class OVROverlay : MonoBehaviour
 		if (layerId > 0)
 		{
 			layerDesc = desc;
+			layerCompositionDepth = compositionDepth;
 			if (isExternalSurface)
 			{
 				stageCount = 1;
@@ -450,6 +457,15 @@ public class OVROverlay : MonoBehaviour
 		Rect destRectRightConverted = new Rect(destRectRight.x, isExternalSurface ^ invertTextureRects ? 1 - destRectRight.y - destRectRight.height : destRectRight.y, destRectRight.width, destRectRight.height);
 		textureRectMatrix.leftRect = srcRectLeftConverted;
 		textureRectMatrix.rightRect = srcRectRightConverted;
+
+		// Fisheye layer requires a 0.5f offset for texture to be centered on the fisheye projection
+		if (currentOverlayShape == OverlayShape.Fisheye)
+		{
+			destRectLeftConverted.x -= 0.5f;
+			destRectLeftConverted.y -= 0.5f;
+			destRectRightConverted.x -= 0.5f;
+			destRectRightConverted.y -= 0.5f;
+		}
 
 		float leftWidthFactor = srcRectLeft.width / destRectLeft.width;
 		float leftHeightFactor = srcRectLeft.height / destRectLeft.height;
@@ -796,10 +812,11 @@ public class OVROverlay : MonoBehaviour
 				UnityEngine.Object.DestroyImmediate(previewObject);
 				previewObject = null;
 			}
-		#endif
+#endif
 	}
 
-#region Unity Messages
+
+	#region Unity Messages
 
 	void Awake()
 	{
@@ -941,8 +958,11 @@ public class OVROverlay : MonoBehaviour
 		if (currentOverlayShape == OverlayShape.Cubemap)
 		{
 #if UNITY_ANDROID && !UNITY_EDITOR
-			//HACK: VRAPI cubemaps assume are yawed 180 degrees relative to LibOVR.
-			pose.orientation = pose.orientation * Quaternion.AngleAxis(180, Vector3.up);
+			if (OVRPlugin.nativeXrApi != OVRPlugin.XrApi.OpenXR)
+			{
+				//HACK: VRAPI cubemaps assume are yawed 180 degrees relative to LibOVR.
+				pose.orientation = pose.orientation * Quaternion.AngleAxis(180, Vector3.up);
+			}
 #endif
 			pose.position = headCamera.transform.position;
 		}
@@ -958,8 +978,8 @@ public class OVROverlay : MonoBehaviour
 			}
 		}
 
-		// Cylinder overlay sanity checking
-		if (currentOverlayShape == OverlayShape.Cylinder)
+		// Cylinder overlay sanity checking when not using OpenXR
+		if (OVRPlugin.nativeXrApi != OVRPlugin.XrApi.OpenXR && currentOverlayShape == OverlayShape.Cylinder)
 		{
 			float arcAngle = scale.x / scale.z / (float)Math.PI * 180.0f;
 			if (arcAngle > 180.0f)
@@ -967,6 +987,12 @@ public class OVROverlay : MonoBehaviour
 				Debug.LogWarning("Cylinder overlay's arc angle has to be below 180 degree, current arc angle is " + arcAngle + " degree." );
 				return false;
 			}
+		}
+
+		if (OVRPlugin.nativeXrApi == OVRPlugin.XrApi.OpenXR && currentOverlayShape == OverlayShape.Fisheye)
+		{
+			Debug.LogWarning("Fisheye overlay shape is not support on OpenXR");
+			return false;
 		}
 
 		return true;
@@ -1106,10 +1132,11 @@ public class OVROverlay : MonoBehaviour
 			if (frameIndex > prevFrameIndex)
 			{
 				int stage = frameIndex % stageCount;
-				if (!PopulateLayer (newDesc.MipLevels, isHdr, newDesc.TextureSize, newDesc.SampleCount, stage))
+				if (!PopulateLayer(newDesc.MipLevels, isHdr, newDesc.TextureSize, newDesc.SampleCount, stage))
 					return;
 			}
 		}
+
 
 		bool isOverlayVisible = SubmitLayer(overlay, headLocked, noDepthBufferTesting, pose, scale, frameIndex);
 
