@@ -153,7 +153,7 @@ public class Handchecker : MonoBehaviour
     {
         if (IsR)//右手
         {
-            if (Hand.localEulerAngles.x <= 135 && Hand.localEulerAngles.x >= 20)//左傾斜
+            if (Hand.localEulerAngles.x <= 135 && Hand.localEulerAngles.x >= 30)//左傾斜
             {
                 HandinfoR[8] = 2;
                 return "右傾斜";
@@ -163,7 +163,7 @@ public class Handchecker : MonoBehaviour
                 HandinfoR[8] = 3;
                 return "エラー";
             }
-            else if(Hand.localEulerAngles.x <= 340 && Hand.localEulerAngles.x >= 225)//右傾斜
+            else if(Hand.localEulerAngles.x <= 330 && Hand.localEulerAngles.x >= 225)//右傾斜
             {
                 HandinfoR[8] = 0;
                 return "左傾斜";
@@ -176,7 +176,7 @@ public class Handchecker : MonoBehaviour
         }
         else//左手
         {
-            if (Hand.localEulerAngles.x <= 135 && Hand.localEulerAngles.x >= 20)//左傾斜
+            if (Hand.localEulerAngles.x <= 135 && Hand.localEulerAngles.x >= 30)//左傾斜
             {
                 HandinfoL[8] = 2;
                 return "右傾斜";
@@ -186,7 +186,7 @@ public class Handchecker : MonoBehaviour
                 HandinfoL[8] = 3;
                 return "エラー";
             }
-            else if (Hand.localEulerAngles.x <= 340 && Hand.localEulerAngles.x >= 225)//右傾斜
+            else if (Hand.localEulerAngles.x <= 330 && Hand.localEulerAngles.x >= 225)//右傾斜
             {
                 HandinfoL[8] = 0;
                 return "左傾斜";
