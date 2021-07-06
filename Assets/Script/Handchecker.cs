@@ -95,7 +95,7 @@ public class Handchecker : MonoBehaviour
     {
         if (IsR)
         {
-            if (Hand.localEulerAngles.y <= 135 && Hand.localEulerAngles.y >= 45)
+            if (Hand.localEulerAngles.y <= 135 && Hand.localEulerAngles.y >= 55)
             {
                 HandrotateR = 0;
                 HandinfoR[5] = 0;
@@ -107,7 +107,7 @@ public class Handchecker : MonoBehaviour
                 HandinfoR[5] = 1;
                 return "内向き";
             }
-            else if (Hand.localEulerAngles.y < 315 && Hand.localEulerAngles.y >= 225)
+            else if (Hand.localEulerAngles.y < 305 && Hand.localEulerAngles.y >= 225)
             {
                 HandrotateR = 2;
                 HandinfoR[5] = 2;
@@ -122,7 +122,7 @@ public class Handchecker : MonoBehaviour
         }
         else
         {
-            if (Hand.localEulerAngles.y <= 135 && Hand.localEulerAngles.y >= 45)
+            if (Hand.localEulerAngles.y <= 135 && Hand.localEulerAngles.y >= 55)
             {
                 HandrotateL = 0;
                 HandinfoL[5] = 0;
@@ -134,7 +134,7 @@ public class Handchecker : MonoBehaviour
                 HandinfoL[5] = 1;
                 return "内向き";
             }
-            else if (Hand.localEulerAngles.y <= 315 && Hand.localEulerAngles.y > 225)
+            else if (Hand.localEulerAngles.y <= 305 && Hand.localEulerAngles.y > 225)
             {
                 HandrotateL = 2;
                 HandinfoL[5] = 2;
