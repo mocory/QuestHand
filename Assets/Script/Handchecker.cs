@@ -95,19 +95,19 @@ public class Handchecker : MonoBehaviour
     {
         if (IsR)
         {
-            if (Hand.localEulerAngles.y <= 135 && Hand.localEulerAngles.y >= 55)
+            if (Hand.localEulerAngles.y <= 135 && Hand.localEulerAngles.y >= 30)
             {
                 HandrotateR = 0;
                 HandinfoR[5] = 0;
                 return "正面";
             }
-            else if ((Hand.localEulerAngles.y < 45 && Hand.localEulerAngles.y >= 0) || (Hand.localEulerAngles.y <= 360 && Hand.localEulerAngles.y >= 315))
+            else if ((Hand.localEulerAngles.y < 30 && Hand.localEulerAngles.y >= 0) || (Hand.localEulerAngles.y <= 360 && Hand.localEulerAngles.y >= 330))
             {
                 HandrotateR = 1;
                 HandinfoR[5] = 1;
                 return "内向き";
             }
-            else if (Hand.localEulerAngles.y < 305 && Hand.localEulerAngles.y >= 225)
+            else if (Hand.localEulerAngles.y < 330 && Hand.localEulerAngles.y >= 225)
             {
                 HandrotateR = 2;
                 HandinfoR[5] = 2;
@@ -122,7 +122,7 @@ public class Handchecker : MonoBehaviour
         }
         else
         {
-            if (Hand.localEulerAngles.y <= 135 && Hand.localEulerAngles.y >= 55)
+            if (Hand.localEulerAngles.y <= 135 && Hand.localEulerAngles.y >= 30)
             {
                 HandrotateL = 0;
                 HandinfoL[5] = 0;
@@ -134,7 +134,7 @@ public class Handchecker : MonoBehaviour
                 HandinfoL[5] = 1;
                 return "内向き";
             }
-            else if (Hand.localEulerAngles.y <= 305 && Hand.localEulerAngles.y > 225)
+            else if (Hand.localEulerAngles.y <= 330 && Hand.localEulerAngles.y > 225)
             {
                 HandrotateL = 2;
                 HandinfoL[5] = 2;
@@ -153,7 +153,7 @@ public class Handchecker : MonoBehaviour
     {
         if (IsR)//右手
         {
-            if (Hand.localEulerAngles.x <= 135 && Hand.localEulerAngles.x >= 30)//左傾斜
+            if (Hand.localEulerAngles.x <= 135 && Hand.localEulerAngles.x >= 55)//左傾斜
             {
                 HandinfoR[8] = 2;
                 return "右傾斜";
@@ -163,7 +163,7 @@ public class Handchecker : MonoBehaviour
                 HandinfoR[8] = 3;
                 return "エラー";
             }
-            else if(Hand.localEulerAngles.x <= 330 && Hand.localEulerAngles.x >= 225)//右傾斜
+            else if(Hand.localEulerAngles.x <= 305 && Hand.localEulerAngles.x >= 225)//右傾斜
             {
                 HandinfoR[8] = 0;
                 return "左傾斜";
@@ -176,7 +176,7 @@ public class Handchecker : MonoBehaviour
         }
         else//左手
         {
-            if (Hand.localEulerAngles.x <= 135 && Hand.localEulerAngles.x >= 30)//左傾斜
+            if (Hand.localEulerAngles.x <= 135 && Hand.localEulerAngles.x >= 55)//左傾斜
             {
                 HandinfoL[8] = 2;
                 return "右傾斜";
@@ -186,7 +186,7 @@ public class Handchecker : MonoBehaviour
                 HandinfoL[8] = 3;
                 return "エラー";
             }
-            else if (Hand.localEulerAngles.x <= 330 && Hand.localEulerAngles.x >= 225)//右傾斜
+            else if (Hand.localEulerAngles.x <= 305 && Hand.localEulerAngles.x >= 225)//右傾斜
             {
                 HandinfoL[8] = 0;
                 return "左傾斜";
@@ -308,11 +308,11 @@ public class Handchecker : MonoBehaviour
                 var v2 = (_skeletonR.Bones[(int)boneids[3]].Transform.position - _skeletonR.Bones[(int)boneids[2]].Transform.position).normalized;
 
                 dot = Vector3.Dot(v2, v1); //内積の値
-            if (dot > 0.4f)
+            if (dot > 0.5f)
             {
                 return 1;
             }
-            else if (dot <= 0.4f && dot >= -0.4f)
+            else if (dot <= 0.5f && dot >= -0.5f)
             {
                 return 0;
             }
@@ -330,11 +330,11 @@ public class Handchecker : MonoBehaviour
                 var v2 = (_skeletonL.Bones[(int)boneids[3]].Transform.position - _skeletonL.Bones[(int)boneids[2]].Transform.position).normalized;
           
             dot = Vector3.Dot(v2, v1); //内積の値
-            if (dot > 0.4f)
+            if (dot > 0.5f)
             {
                 return 1;
             }
-            else if (dot <= 0.4f && dot >= -0.4f)
+            else if (dot <= 0.5f && dot >= -0.5f)
             {
                 return 0;
             }
