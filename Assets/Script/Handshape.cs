@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using OculusSampleFramework;
+using DG.Tweening;
 
 public class Handshape : MonoBehaviour
 {
@@ -23,6 +24,11 @@ public class Handshape : MonoBehaviour
     public GameObject ScoreUI;
     bool IsLUsing, IsRUsing;
     public int[,] LReview, RReview;//どこが間違ってたかを記録する 
+    [SerializeField]
+    Transform Maru, Batsu;
+    [SerializeField]
+    AudioSource Correctsound;
+
 
     // Start is called before the first frame update
     void Start()
@@ -55,7 +61,7 @@ public class Handshape : MonoBehaviour
                 Hello();
                 break;
             case 2:
-                Nicetomeetyou();
+                StartCoroutine(nameof(Nicetomeetyou));
                 break;
         }
     }
@@ -198,7 +204,7 @@ public class Handshape : MonoBehaviour
         }
     }
 
-    void Nicetomeetyou()
+    IEnumerator Nicetomeetyou()
     {
         switch (Fase)
         {
@@ -219,6 +225,10 @@ public class Handshape : MonoBehaviour
                 {
                     Putscore(Score);
                     Correctreset();
+                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.OutQuad);
+                    yield return new WaitForSeconds(1.2f);
+                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.InQuad);
+                    yield return new WaitForSeconds(0.8f);
                     Fase++;
                 }
                 break;
@@ -238,6 +248,10 @@ public class Handshape : MonoBehaviour
                 {
                     Putscore(Score);
                     Correctreset();
+                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.OutQuad);
+                    yield return new WaitForSeconds(1.2f);
+                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.InQuad);
+                    yield return new WaitForSeconds(0.8f);
                     Fase++;
                 }
                 break;
@@ -258,6 +272,10 @@ public class Handshape : MonoBehaviour
                 {
                     Putscore(Score);
                     Correctreset();
+                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.OutQuad);
+                    yield return new WaitForSeconds(1.2f);
+                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.InQuad);
+                    yield return new WaitForSeconds(0.8f);
                     Fase++;
                 }
                 break;
@@ -281,13 +299,26 @@ public class Handshape : MonoBehaviour
                     //                    yield return null;
                     Putscore(Score);
                     Correctreset();
+                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.OutQuad);
+                    yield return new WaitForSeconds(1.2f);
+                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.InQuad);
+                    yield return new WaitForSeconds(0.8f);
                     Fase++;
                     Ending();
                 }
                 break;
         }
     }
-
+    IEnumerator Correct()
+    {
+//        Correctsound.PlayOneShot(Correctsound.clip);
+        Maru.DOScale(1.6f, 0.7f).SetEase(Ease.OutQuad);
+        yield return new WaitForSeconds(1.2f);
+        Maru.DOScale(1.6f, 0.7f).SetEase(Ease.InQuad);
+        yield return new WaitForSeconds(0.8f);
+        Fase++;
+        yield break;
+    }
 
     void Ending()
     {
