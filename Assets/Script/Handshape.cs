@@ -61,7 +61,7 @@ public class Handshape : MonoBehaviour
                 Hello();
                 break;
             case 2:
-                StartCoroutine(nameof(Nicetomeetyou));
+                Nicetomeetyou();
                 break;
         }
     }
@@ -204,7 +204,7 @@ public class Handshape : MonoBehaviour
         }
     }
 
-    IEnumerator Nicetomeetyou()
+    void Nicetomeetyou()
     {
         switch (Fase)
         {
@@ -225,10 +225,7 @@ public class Handshape : MonoBehaviour
                 {
                     Putscore(Score);
                     Correctreset();
-                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.OutQuad);
-                    yield return new WaitForSeconds(1.2f);
-                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.InQuad);
-                    yield return new WaitForSeconds(0.8f);
+                    StartCoroutine(nameof(Correct));
                     Fase++;
                 }
                 break;
@@ -248,10 +245,7 @@ public class Handshape : MonoBehaviour
                 {
                     Putscore(Score);
                     Correctreset();
-                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.OutQuad);
-                    yield return new WaitForSeconds(1.2f);
-                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.InQuad);
-                    yield return new WaitForSeconds(0.8f);
+                    StartCoroutine(nameof(Correct));
                     Fase++;
                 }
                 break;
@@ -272,10 +266,7 @@ public class Handshape : MonoBehaviour
                 {
                     Putscore(Score);
                     Correctreset();
-                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.OutQuad);
-                    yield return new WaitForSeconds(1.2f);
-                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.InQuad);
-                    yield return new WaitForSeconds(0.8f);
+                    StartCoroutine(nameof(Correct));
                     Fase++;
                 }
                 break;
@@ -299,10 +290,7 @@ public class Handshape : MonoBehaviour
                     //                    yield return null;
                     Putscore(Score);
                     Correctreset();
-                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.OutQuad);
-                    yield return new WaitForSeconds(1.2f);
-                    Maru.DOScale(1.6f, 0.7f).SetEase(Ease.InQuad);
-                    yield return new WaitForSeconds(0.8f);
+                    StartCoroutine(nameof(Correct));
                     Fase++;
                     Ending();
                 }
@@ -312,12 +300,9 @@ public class Handshape : MonoBehaviour
     IEnumerator Correct()
     {
 //        Correctsound.PlayOneShot(Correctsound.clip);
-        Maru.DOScale(1.6f, 0.7f).SetEase(Ease.OutQuad);
-        yield return new WaitForSeconds(1.2f);
-        Maru.DOScale(1.6f, 0.7f).SetEase(Ease.InQuad);
+        Maru.DOScale(1.6f, 0.55f).SetEase(Ease.OutQuad);
         yield return new WaitForSeconds(0.8f);
-        Fase++;
-        yield break;
+        Maru.DOScale(0, 0.4f).SetEase(Ease.InQuad);
     }
 
     void Ending()
