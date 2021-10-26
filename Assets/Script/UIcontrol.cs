@@ -151,20 +151,20 @@ public class UIcontrol : MonoBehaviour
         if (State == 0)//モード選択
         {
 //            UISelectedmode = Xpos;
-            UIParent.transform.DOMoveX(UISelectedmode * -2.2f, 0.7f);
+            UIParent.transform.DOMoveX(UISelectedmode * -1.45f, 0.7f);
             UIParent.transform.DOMoveY(0 * -2.2f, 0.7f);
         }
         else if (State == 1)//学習モード
         {
  //           UISelectedstep = Xpos;
-            UIParent.transform.DOMoveX(UISelectedstep * -2.2f, 0.7f);
-            UIParent.transform.DOMoveY(2, 0.7f);
+            UIParent.transform.DOMoveX(UISelectedstep * -1.45f, 0.7f);
+            UIParent.transform.DOMoveY(0.97f, 0.7f);
         }
         else if (State == 2)//テストモード
         {
             //           UISelectedstep = Xpos;
-            UIParent.transform.DOMoveX(UISelectedstep * -2.2f, 0.7f);
-            UIParent.transform.DOMoveY(2, 0.7f);
+            UIParent.transform.DOMoveX(UISelectedstep * -1.45f, 0.7f);
+            UIParent.transform.DOMoveY(0.97f, 0.7f);
         }
         else if (State == 5)
         {
