@@ -1205,6 +1205,9 @@ MonoBehaviour:
   Rscore: {fileID: 1198912493}
   Totalscore: {fileID: 785268478}
   ScoreUI: {fileID: 1721598125}
+  Maru: {fileID: 0}
+  Batsu: {fileID: 0}
+  Correctsound: {fileID: 0}
 --- !u!114 &367619542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1325,7 +1328,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 400370834}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.21}
+  m_LocalPosition: {x: 0, y: -0.21200001, z: 0.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1912623776}
@@ -1639,7 +1642,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 671812663}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.21200001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1187025833}
@@ -2218,7 +2221,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 881201930}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.21200001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1393955899}
@@ -4590,7 +4593,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2936667407064068583, guid: 41af5c92dc71a064a9d2c28ce742f99b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.426
+      value: 1.214
       objectReference: {fileID: 0}
     - target: {fileID: 2936667407064068583, guid: 41af5c92dc71a064a9d2c28ce742f99b, type: 3}
       propertyPath: m_LocalPosition.z

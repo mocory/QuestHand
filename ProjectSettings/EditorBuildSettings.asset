@@ -11,10 +11,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Oculus/VR/Scenes/HandTest.unity
     guid: b9a31e08066d6e343a208d34ec298f09
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Handtest 1.unity
     guid: d74457c174a211c4889a489bfdbe103d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Handtest 2.unity
     guid: 1d369bb426546494181f91d7751a6f8b
   m_configObjects:

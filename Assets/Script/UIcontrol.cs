@@ -134,7 +134,7 @@ public class UIcontrol : MonoBehaviour
                     GetComponent<Handshape>().ScoreUI.SetActive(false);
                     GetComponent<Handshape>().Fase = 0;
                     GetComponent<Handshape>().Step = 0;
-                    Buttons.DOMoveY(0, 0.7f);
+                    Buttons.DOMoveY(-0.3f, 0.7f);
                     GameObject Otehon = GameObject.Find("Otehon");
                     int otehonnum = Otehon.transform.childCount;
                     for (int i=0 ; i < otehonnum; i++){
@@ -174,7 +174,7 @@ public class UIcontrol : MonoBehaviour
         }
         else if (State == 6)
         {
-            Buttons.DOMoveY(0, 0.7f);
+            Buttons.DOMoveY(-0.3f, 0.7f);
         }
     }
 }
