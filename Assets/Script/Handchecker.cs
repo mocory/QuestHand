@@ -16,11 +16,9 @@ public class Handchecker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-//        textL.text = "textL";
-//        textR.text = "textR";
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         isThumbStraight = IsStraight(true, 0.8f, OVRSkeleton.BoneId.Hand_Thumb1, OVRSkeleton.BoneId.Hand_Thumb2, OVRSkeleton.BoneId.Hand_Thumb3, OVRSkeleton.BoneId.Hand_ThumbTip);
@@ -41,16 +39,6 @@ public class Handchecker : MonoBehaviour
         textL.text = "親指は" + IsFingerstraight(isThumbStraightL) + "\n人差し指は " + IsFingerstraight(isIndexStraightL) + "\n中指は" + IsFingerstraight(isMiddleStraightL) + "\n薬指は" + IsFingerstraight(isRingStraightL) + "\n小指は" + IsFingerstraight(isPinkyStraightL) + "\n" + Handrot(HandL, false) + "\n" + Head2handposV(HandL,false) + Head2handposH(HandL,false) + "\n" + Handroll(HandL, false) + "\n" + HandinfoL[0].ToString() + HandinfoL[1].ToString() + HandinfoL[2].ToString() + HandinfoL[3].ToString() + HandinfoL[4].ToString() + HandinfoL[5].ToString() + HandinfoL[6].ToString() + HandinfoL[7].ToString() + HandinfoL[8].ToString();
 
         Handstatecheker();
-/*        for(int i=0;i< HandinfoR.Length; i++)
-        {
- //           textR.text += "\n";
-            textR.text += HandinfoR[i].ToString();
-        }
-        for (int i = 0; i < HandinfoL.Length; i++)
-        {
- //           textL.text += "\n";
-            textL.text += HandinfoL[i].ToString();
-        }*/
     }
 
     void Handstatecheker()
@@ -302,7 +290,6 @@ public class Handchecker : MonoBehaviour
     {
         if (isR)
         {
-//            if (boneids.Length < 3) return 1;   //調べようがない
             var dot = 1.0f;
                 var v1 = (_skeletonR.Bones[(int)boneids[1]].Transform.position - _skeletonR.Bones[(int)boneids[0]].Transform.position).normalized;
                 var v2 = (_skeletonR.Bones[(int)boneids[3]].Transform.position - _skeletonR.Bones[(int)boneids[2]].Transform.position).normalized;
@@ -320,11 +307,9 @@ public class Handchecker : MonoBehaviour
             {
                 return -1;
             }
-//            return dot >= threshold; //指定したBoneIDの内積の総乗が閾値を超えていたら直線とみなす
         }
         else
         {
-//            if (boneids.Length < 3) return 1;   //調べようがない
             var dot = 1.0f;
                 var v1 = (_skeletonL.Bones[(int)boneids[1]].Transform.position - _skeletonL.Bones[(int)boneids[0]].Transform.position).normalized;
                 var v2 = (_skeletonL.Bones[(int)boneids[3]].Transform.position - _skeletonL.Bones[(int)boneids[2]].Transform.position).normalized;
@@ -349,7 +334,7 @@ public class Handchecker : MonoBehaviour
     {
         if (isR)
         {
-            if (boneids.Length < 3) return false;   //調べようがない
+            if (boneids.Length < 3) return false;   
             Vector3? oldVec = null;
             var dot = 1.0f;
             for (var index = 0; index < boneids.Length - 1; index++)
@@ -365,7 +350,7 @@ public class Handchecker : MonoBehaviour
         }
         else
         {
-            if (boneids.Length < 3) return false;   //調べようがない
+            if (boneids.Length < 3) return false;   
             Vector3? oldVec = null;
             var dot = 1.0f;
             for (var index = 0; index < boneids.Length - 1; index++)

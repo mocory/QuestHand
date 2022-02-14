@@ -11,13 +11,12 @@ public class UIcontrol : MonoBehaviour
     [SerializeField] Transform UIParent,Buttons;
     [SerializeField] TextMesh numdebug;
 
-    // Start is called before the first frame update
     void Start()
     {
         Buttoncheck();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         numdebug.text = UISelectedmode.ToString();
@@ -128,7 +127,6 @@ public class UIcontrol : MonoBehaviour
         {
             if (args.InteractionT == InteractionType.Enter)
             {
-//                if (State == 1)//ここの値は逐次変更する
                 {
                     State = 0;
                     GetComponent<Handshape>().ScoreUI.SetActive(false);
@@ -150,25 +148,21 @@ public class UIcontrol : MonoBehaviour
     {
         if (State == 0)//モード選択
         {
-//            UISelectedmode = Xpos;
             UIParent.transform.DOMoveX(UISelectedmode * -1.45f, 0.7f);
             UIParent.transform.DOMoveY(0 * -2.2f, 0.7f);
         }
         else if (State == 1)//学習モード
         {
- //           UISelectedstep = Xpos;
             UIParent.transform.DOMoveX(UISelectedstep * -1.45f, 0.7f);
             UIParent.transform.DOMoveY(0.97f, 0.7f);
         }
         else if (State == 2)//テストモード
         {
-            //           UISelectedstep = Xpos;
             UIParent.transform.DOMoveX(UISelectedstep * -1.45f, 0.7f);
             UIParent.transform.DOMoveY(0.97f, 0.7f);
         }
         else if (State == 5)
         {
-//            UIParent.DOMoveX(UISelectedstep * -2.2f, 0.7f);
             UIParent.DOMoveY(10, 0.7f);
             Buttons.DOMoveY(10, 0.7f);
         }

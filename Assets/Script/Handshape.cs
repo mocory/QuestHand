@@ -30,7 +30,7 @@ public class Handshape : MonoBehaviour
     AudioSource Correctsound;
 
 
-    // Start is called before the first frame update
+
     void Start()
     {
         handchecker = GetComponent<Handchecker>();
@@ -42,7 +42,7 @@ public class Handshape : MonoBehaviour
         Averagerate = 0.02f;//平均の近似割合0.025だと少し早い2秒程度、0.0125だと少し遅い4秒程度
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         Correctcolor();
@@ -51,7 +51,6 @@ public class Handshape : MonoBehaviour
         Handscore();
         Scoremaking();
         Averagescore();
-//        colorchange();
         switch (Step)
         {
             case 0:
@@ -103,25 +102,6 @@ public class Handshape : MonoBehaviour
 
     void Learnstart()
     {
-        /*        if (HandL.GetFingerIsPinching(OVRHand.HandFinger.Index))
-                {
-                    Step = 1;
-                }*/
-        /*        else if (HandL.GetFingerIsPinching(OVRHand.HandFinger.Middle))
-                {
-                    Step = 2;
-                }
-                else if (HandL.GetFingerIsPinching(OVRHand.HandFinger.Ring))
-                {
-                    Step = 3;
-                }*/
-        /*        _buttonController.ActionZoneEvent += args =>
-                {
-                    if (args.InteractionT == InteractionType.Enter)
-                    {
-                        Pressbutton();
-                    }
-                };*/
             learnmessage.text = "学習モード待機中" +
                 "\n\n決定ボタンを押して下さい";
     }
@@ -286,8 +266,6 @@ public class Handshape : MonoBehaviour
                 if (IsRcorrect && IsLcorrect)
                 {
                     ScoreUI.SetActive(false);
-                    //                    yield return new WaitForSeconds(2);
-                    //                    yield return null;
                     Putscore(Score);
                     Correctreset();
                     StartCoroutine(nameof(Correct));
@@ -299,7 +277,6 @@ public class Handshape : MonoBehaviour
     }
     IEnumerator Correct()
     {
-//        Correctsound.PlayOneShot(Correctsound.clip);
         Maru.DOScale(1.6f, 0.55f).SetEase(Ease.OutQuad);
         yield return new WaitForSeconds(0.8f);
         Maru.DOScale(0, 0.4f).SetEase(Ease.InQuad);
@@ -323,7 +300,6 @@ public class Handshape : MonoBehaviour
     }
     void Fingermatch()
     {
-//        if (AllowShapetrack)
         {
             for (int i = 0; i < handchecker.HandinfoL.Length; i++)
             {
@@ -349,7 +325,6 @@ public class Handshape : MonoBehaviour
                     IsRcorrect = true;
                 }
             }
-            //            AllowShapetrack = false;
         }
     }
     void Handscore()
@@ -422,7 +397,6 @@ public class Handshape : MonoBehaviour
 
         ScoreaveL += ScoreL * Averagerate;
         ScoreaveR += ScoreR * Averagerate;
-//        yield return null;
     }
     void Scoremaking()
     {
@@ -445,7 +419,6 @@ public class Handshape : MonoBehaviour
             Rscore.text = ScoreaveR.ToString("F0") + "点";
             Totalscore.text = Score.ToString("F0") + "点 ";
         }
-        //        fase.text = ScoreaveL.ToString("F0") + "点 " + Score.ToString("F0") + "点 " + ScoreaveR.ToString("F0") + "点";
     }
 
     public void Correctreset()
